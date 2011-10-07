@@ -16,7 +16,11 @@ class CloudWatchTest < PapertrailServices::TestCase
       metric_regex_params(3, :dimension => 'Region=West;Element=page').merge(@common_settings), 
       payload)
     
-    svc.acw = MockAcwInterface.new
+    svc.aws_connection.build do |b|
+      b.adapter :test do |stub|
+        stub.post('/') { [ 200, nil, '' ]}
+      end
+    end
 
     svc.receive_logs
   end

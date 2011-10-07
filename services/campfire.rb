@@ -9,7 +9,7 @@ class Service::Campfire < Service
       raise_config_error 'No such campfire room'
     end
 
-    message = %{"#{payload[:saved_search][:name]}" search found #{pluralize(payload[:events].length, 'match')} -- #{payload[:saved_search][:html_search_url]}}
+    message = %{"#{payload[:saved_search][:name]}" search found #{pluralize(payload[:events].length, 'match')} — #{payload[:saved_search][:html_search_url]}}
     paste = payload[:events].collect { |event| syslog_format(event) }.join("\n")
 
     play_sound = settings[:play_sound].to_i == 1
