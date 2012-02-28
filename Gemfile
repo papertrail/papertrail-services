@@ -16,6 +16,7 @@ gem 'tinder', '~> 1.4'
 
 group :building do
   gem 'rake'
+  gem 'test-unit'
 end
 
 group :production do
