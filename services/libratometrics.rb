@@ -17,7 +17,7 @@ class Service::LibratoMetrics < Service
     gauges = values.collect do |source_name, hash|
       hash.collect do |time, count|
         {
-          :name => settings[:name],
+          :name => settings[:name].gsub(/ +/, '_'),
           :source => source_name,
           :value => count,
           :measure_time => time
