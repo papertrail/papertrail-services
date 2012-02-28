@@ -14,6 +14,9 @@ gem 'mail', '~> 2.2'
 # service :campfire
 gem 'tinder', '~> 1.4'
 
+# service :hipchat
+gem 'hipchat-api'
+
 group :building do
   gem 'rake'
 end
