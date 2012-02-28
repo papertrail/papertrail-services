@@ -1,8 +1,11 @@
 # encoding: utf-8
+require 'cgi'
 require 'hipchat-api'
 
 class Service::HipChat < Service
   attr_writer :hipchat
+
+  MESSAGE_LIMIT = 5000 - ("<pre>\n"+'</pre>').size
 
   def receive_logs
     raise_config_error 'Missing hipchat token' if settings[:token].to_s.empty?
@@ -13,13 +16,29 @@ class Service::HipChat < Service
     search_url = payload[:saved_search][:html_search_url]
     matches = pluralize(events.size, 'match')
 
-    message = %{"#{search_name}" search found #{matches} — #{search_url}}
-    paste = events.map { |event| "<pre>#{syslog_format(event)}</pre>" }.join('<br />')
+    deliver %{"#{search_name}" search found #{matches} — #{search_url}}
 
-    deliver message
-    deliver paste if paste && paste != ''
+    unless events.size.zero?
+      logs, remaining = [], MESSAGE_LIMIT
+      events.each do |event|
+        new_entry = CGI.escapeHTML(syslog_format(event)) + "\n"
+        remaining -= new_entry.size
+        if remaining > 0
+          logs << new_entry
+        else
+          deliver_preformatted(logs.join)
+          logs, remaining = [new_entry], MESSAGE_LIMIT
+        end
+      end
+
+      deliver_preformatted(logs.join)
+    end
   rescue
     raise_config_error "Error sending hipchat message: #{$!}"
+  end
+
+  def deliver_preformatted(message)
+    deliver "<pre>\n" + message + '</pre>'
   end
 
   def deliver(message)
