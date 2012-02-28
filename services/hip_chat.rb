@@ -8,15 +8,18 @@ class Service::HipChat < Service
     raise_config_error 'Missing hipchat token' if settings[:token].to_s.empty?
     raise_config_error 'Missing hipchat room_id' if settings[:room_id].to_s.empty?
 
-    message = %{"#{payload[:saved_search][:name]}" search found #{pluralize(payload[:events].length, 'match')} — #{payload[:saved_search][:html_search_url]}}
-    paste = payload[:events].collect { |event| "<pre>#{syslog_format(event)}</pre>" }.join("<br />")
+    events = payload[:events]
+    search_name = payload[:saved_search][:name]
+    search_url = payload[:saved_search][:html_search_url]
+    matches = pluralize(events.size, 'match')
+
+    message = %{"#{search_name}" search found #{matches} — #{search_url}}
+    paste = events.map { |event| "<pre>#{syslog_format(event)}</pre>" }.join('<br />')
 
     deliver message
-    if paste && paste != ''
-      deliver paste
-    end
+    deliver paste if paste && paste != ''
   rescue
-    raise_config_error "Connection refused — hipchat message rejected."
+    raise_config_error "Error sending hipchat message: #{$!}"
   end
 
   def deliver(message)
