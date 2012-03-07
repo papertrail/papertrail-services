@@ -11,8 +11,11 @@ class Service::Mail < Service
   def mail_message
     @mail_message ||= begin
       mail = ::Mail.new
-      mail.from    'Papertrail <support@papertrailapp.com>'
-      mail.to      settings[:addresses].split(/,/).map { |a| a.strip }
+
+      mail.from    'Papertrail <support@papertrailapp.com>'      
+      recipients = settings[:addresses].split(/,/).map { |a| a.strip }
+      mail.to      recipients
+      mail['reply-to'] = recipients.join(', ')
       mail.subject %{[Papertrail] "#{payload[:saved_search][:name]}" search: #{pluralize(payload[:events].length, 'match')}}
 
       text = text_email
