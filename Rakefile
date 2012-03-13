@@ -6,3 +6,7 @@ Rake::TestTask.new(:test) do |test|
 end
 
 task :default => :test
+
+task :console do
+  sh "irb -Ilib -r./config/bootstrap -rpapertrail_services"
+end

@@ -49,6 +49,7 @@ class HipchatTest < PapertrailServices::TestCase
       :program => 'irb',
       :source_name => 'host1',
       :display_received_at => '2012-02-28',
+      :received_at => '2012-02-28T14:20:01-07:00'
     }]))
 
     assert_equal 1, rooms.size
@@ -60,7 +61,7 @@ class HipchatTest < PapertrailServices::TestCase
     expected = %{"cron" search found 1 match — https://papertrailapp.com/searches/392}
     assert_equal expected, msgs.first
 
-    expected = '2012-02-28 host1 irb: &lt;pre&gt;escaped&lt;br/&gt;&lt;/pre&gt;'
+    expected = 'Feb 28 13:20:01 host1 irb: &lt;pre&gt;escaped&lt;br/&gt;&lt;/pre&gt;'
     expected = "<pre>\n#{expected}\n</pre>"
     assert_equal expected, msgs.last
   end
@@ -69,7 +70,8 @@ class HipchatTest < PapertrailServices::TestCase
     entry = { :message => 'msg0123456789',
       :program => 'abcdef',
       :source_name => 'ABCD',
-      :display_received_at => '2012-02-28' }
+      :display_received_at => '2012-02-28',
+      :received_at => '2012-02-28T14:20:01-07:00' }
 
     line_length = "#{syslog_format(entry)}\n".size
     formatting = "<pre>\n\n</pre>"

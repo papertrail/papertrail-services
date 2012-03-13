@@ -4,7 +4,7 @@ module PapertrailServices
   module Helpers
     module LogsHelpers
       def syslog_format(message)
-        "#{message[:display_received_at]} #{message[:source_name]} #{message[:program]}: #{message[:message]}"
+        "#{Time.parse(message[:received_at]).strftime('%b %d %X')} #{message[:source_name]} #{message[:program]}: #{message[:message]}"
       end
       
       def self.sample_payload
