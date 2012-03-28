@@ -3,10 +3,6 @@ require 'tilt'
 module PapertrailServices
   module Helpers
     module LogsHelpers
-      def syslog_format(message)
-        "#{Time.zone.parse(message[:received_at]).strftime('%b %d %X')} #{message[:source_name]} #{message[:program]}: #{message[:message]}"
-      end
-      
       def self.sample_payload
         {
           "min_id"=>"31171139124469760", "max_id"=>"31181206313902080", "reached_record_limit"=>true,
@@ -27,6 +23,10 @@ module PapertrailServices
         }.with_indifferent_access
       end
 
+      def syslog_format(message)
+        "#{Time.zone.parse(message[:received_at]).strftime('%b %d %X')} #{message[:source_name]} #{message[:program]}: #{message[:message]}"
+      end
+      
       def erb(template, target_binding)
         ERB.new(template, nil, '-').result(target_binding)
       end
