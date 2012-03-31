@@ -1,17 +1,25 @@
 # encoding: utf-8
 class Service::LibratoMetrics < Service
   def receive_logs
-    # values[hostname][time]
-    values = Hash.new do |h,k|
-      h[k] = Hash.new do |i,l|
-        i[l] = 0
-      end
-    end
+    values = Hash.new
 
     payload[:events].each do |event|
       time = Time.parse(event[:received_at])
       time = time.to_i - (time.to_i % 60)
-      values[event[:source_name]][time] += 1
+
+      if settings[:split]:
+        split_value = event[settings[:split]]
+      else
+        split_value = settings[:name]
+      end
+
+      if !values.has_key?(split_value)
+        values[split_value] = Hash.new
+      end
+      if !values[split_value].has_key?(time)
+        values[split_value][time] = 0
+      end
+      values[split_value][time] += 1
     end
 
     gauges = values.collect do |source_name, hash|
