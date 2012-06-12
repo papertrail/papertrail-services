@@ -29,7 +29,7 @@ class HipChatTest < PapertrailServices::TestCase
       Jul 22 14:20:01 alien CROND: (root) CMD (/usr/lib/sa/sa1 -S DISK 1 1)
       Jul 22 14:30:01 alien CROND: (root) CMD (/usr/lib/sa/sa1 -S DISK 1 1)
       Jul 22 14:40:01 alien CROND: (root) CMD (/usr/lib/sa/sa1 -S DISK 1 1)
-      Jul 22 14:50:01 alien CROND: (root) CMD (/usr/lib/sa/sa1 -S DISK 1 1)
+      Jul 22 14:50:01 lullaby CROND: (root) CMD (/usr/lib/sa/sa1 -S DISK 1 1)
       EOF
     expected = "<pre>\n#{expected}</pre>"
     assert_equal expected, msgs.last
