@@ -1,11 +1,10 @@
 # encoding: utf-8
-require 'cgi'
 require 'hipchat-api'
 
 class Service::HipChat < Service
   attr_writer :hipchat
 
-  MESSAGE_LIMIT = 5000 - ("<pre>\n"+'</pre>').size
+  MESSAGE_LIMIT = 5000 - "<pre>\n</pre>".size
 
   def receive_logs
     raise_config_error 'Missing hipchat token' if settings[:token].to_s.empty?
@@ -18,21 +17,21 @@ class Service::HipChat < Service
 
     deliver %{<a href="#{search_url}">#{search_name}</a> search found #{matches}}
 
-    unless events.size.zero?
-      logs, remaining = [], MESSAGE_LIMIT
-      events.each do |event|
-        new_entry = CGI.escapeHTML(syslog_format(event)) + "\n"
-        remaining -= new_entry.size
-        if remaining > 0
-          logs << new_entry
-        else
-          deliver_preformatted(logs.join)
-          logs, remaining = [new_entry], MESSAGE_LIMIT
-        end
+    buf = ''
+
+    events.each do |event|
+      new_entry = h(syslog_format(event)) + "\n"
+
+      if buf.size + new_entry.size > MESSAGE_LIMIT
+        deliver_preformatted(buf)
+        buf = ''
+        redo
       end
 
-      deliver_preformatted(logs.join)
+      buf << new_entry
     end
+
+    deliver_preformatted(buf) unless buf.empty?
   rescue
     raise_config_error "Error sending hipchat message: #{$!}"
   end
