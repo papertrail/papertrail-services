@@ -24,11 +24,11 @@ class HipChatTest < PapertrailServices::TestCase
     assert_equal expected, msgs.first
 
     expected =<<-'EOF'.lines.map(&:lstrip).join
-      Jul 22 14:10:01 alien CROND: (root) CMD (/usr/lib/sa/sa1 -S DISK 1 1)
-      Jul 22 14:20:01 alien CROND: (root) CMD (/usr/lib/sa/sa1 -S DISK 1 1)
-      Jul 22 14:30:01 alien CROND: (root) CMD (/usr/lib/sa/sa1 -S DISK 1 1)
-      Jul 22 14:40:01 alien CROND: (root) CMD (/usr/lib/sa/sa1 -S DISK 1 1)
-      Jul 22 14:50:01 lullaby CROND: (root) CMD (/usr/lib/sa/sa1 -S DISK 1 1)
+      <b>Jul 22 14:10:01 alien CROND:</b> (root) CMD (/usr/lib/sa/sa1 -S DISK 1 1)
+      <b>Jul 22 14:20:01 alien CROND:</b> (root) CMD (/usr/lib/sa/sa1 -S DISK 1 1)
+      <b>Jul 22 14:30:01 alien CROND:</b> (root) CMD (/usr/lib/sa/sa1 -S DISK 1 1)
+      <b>Jul 22 14:40:01 alien CROND:</b> (root) CMD (/usr/lib/sa/sa1 -S DISK 1 1)
+      <b>Jul 22 14:50:01 lullaby CROND:</b> (root) CMD (/usr/lib/sa/sa1 -S DISK 1 1)
       EOF
     expected = "<pre>\n#{expected}</pre>"
     assert_equal expected, msgs.last
@@ -60,7 +60,7 @@ class HipChatTest < PapertrailServices::TestCase
     expected = %{<a href="https://papertrailapp.com/searches/392">cron</a> search found 1 match}
     assert_equal expected, msgs.first
 
-    expected = 'Feb 28 13:20:01 host1 irb: &lt;pre&gt;escaped&lt;br/&gt;&lt;/pre&gt;'
+    expected = '<b>Feb 28 13:20:01 host1 irb:</b> &lt;pre&gt;escaped&lt;br/&gt;&lt;/pre&gt;'
     expected = "<pre>\n#{expected}\n</pre>"
     assert_equal expected, msgs.last
   end
@@ -72,7 +72,7 @@ class HipChatTest < PapertrailServices::TestCase
       :display_received_at => '2012-02-28',
       :received_at => '2012-02-28T14:20:01-07:00' }
 
-    line_length = "#{syslog_format(entry)}\n".size
+    line_length = "#{syslog_format(entry)}\n".size + '<b></b>'.size
     formatting = "<pre>\n\n</pre>"
     lines_in_block = (10000 - formatting.size) / line_length
     events = [entry] * lines_in_block

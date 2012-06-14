@@ -20,7 +20,7 @@ class Service::HipChat < Service
     buf = ''
 
     events.each do |event|
-      new_entry = h(syslog_format(event)) + "\n"
+      new_entry = format_entry(event) + "\n"
 
       if buf.size + new_entry.size > MESSAGE_LIMIT
         deliver_preformatted(buf)
@@ -34,6 +34,12 @@ class Service::HipChat < Service
     deliver_preformatted(buf) unless buf.empty?
   rescue
     raise_config_error "Error sending hipchat message: #{$!}"
+  end
+
+  def format_entry(entry)
+    received_at = Time.zone.parse(entry[:received_at]).strftime('%b %d %X')
+
+    "<b>#{received_at} #{h(entry[:source_name])} #{h(entry[:program])}:</b> #{h(entry[:message])}"
   end
 
   def deliver_preformatted(message)
