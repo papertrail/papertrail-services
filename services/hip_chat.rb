@@ -4,7 +4,7 @@ require 'hipchat-api'
 class Service::HipChat < Service
   attr_writer :hipchat
 
-  MESSAGE_LIMIT = 5000 - "<pre>\n</pre>".size
+  MESSAGE_LIMIT = 10000 - "<pre>\n</pre>".size
 
   def receive_logs
     raise_config_error 'Missing hipchat token' if settings[:token].to_s.empty?

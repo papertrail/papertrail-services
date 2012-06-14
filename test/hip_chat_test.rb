@@ -74,7 +74,7 @@ class HipChatTest < PapertrailServices::TestCase
 
     line_length = "#{syslog_format(entry)}\n".size
     formatting = "<pre>\n\n</pre>"
-    lines_in_block = (5000 - formatting.size) / line_length
+    lines_in_block = (10000 - formatting.size) / line_length
     events = [entry] * lines_in_block
     assert_equal 1+1, get_chats(payload.dup.merge(:events => events))['r'].size
     assert_equal 1+2, get_chats(payload.dup.merge(:events => events * 2))['r'].size
