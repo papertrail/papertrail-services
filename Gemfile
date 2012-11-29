@@ -5,8 +5,7 @@ gem 'activesupport', '~> 2.3', :require => 'active_support'
 gem 'yajl-ruby', :require => [ 'yajl', 'yajl/json_gem' ]
 gem 'faraday'
 
-
-gem 'hoptoad_notifier'
+gem "sentry-raven", :git => "https://github.com/getsentry/raven-ruby.git"
 
 # service: mail
 gem 'mail', '~> 2.2'

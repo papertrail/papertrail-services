@@ -1,13 +1,12 @@
 
 # Default the timezone to PST if it isn't set
 Time.zone_default = ActiveSupport::TimeZone['Pacific Time (US & Canada)']
-
 module PapertrailServices
   class App < Sinatra::Base
     configure do
-      if ENV['HOPTOAD_API_KEY'].present?
-        HoptoadNotifier.configure do |config|
-          config.api_key = ENV['HOPTOAD_API_KEY']
+      if ENV['SENTRY_KEY'].present?
+        Raven.configure do |c|
+          c.dsn = ENV['SENTRY_KEY']
         end
       end
     end
@@ -51,8 +50,8 @@ module PapertrailServices
         $stderr.puts "Error: #{e.class}: #{e.message}"
         $stderr.puts "\t#{e.backtrace.join("\n\t")}"
 
-        if ENV['HOPTOAD_API_KEY'].present?
-          HoptoadNotifier.notify(e)
+        if ENV['SENTRY_KEY'].present?
+          Raven::Event.capture_exception(e)
         end
       end
     end
