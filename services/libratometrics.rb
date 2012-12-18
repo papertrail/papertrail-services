@@ -11,32 +11,13 @@ class Service::LibratoMetrics < Service
     end
 
     payload[:events].each do |event|
-      time = Time.parse(event[:received_at])
-      time = time.to_i - (time.to_i % 60)
+      time = Time.parse(event[:received_at]).to_i
       values[event[:source_name]][time] += 1
     end
 
     client = Librato::Metrics::Client.new
     client.authenticate(settings[:user], settings[:token])
-
-    times = values.values.map { |h| h.keys }.flatten.sort.compact
-
-    begin
-      previous_data = client.fetch name, :start_time => times.first,
-        :finish_time => times.last
-
-      values.each do |source, source_values|
-        if previous_values = previous_data[source]
-          previous_values.each do |previous_value|
-            if source_values[previous_value['measure_time']]
-              source_values[previous_value['measure_time']] += previous_value['value']
-            end
-          end
-        end
-      end
-    rescue Librato::Metrics::NotFound
-      # We're creating the metric
-    end
+    client.agent_identifier("Papertrail-Services/1.0")
 
     queue = client.new_queue
 

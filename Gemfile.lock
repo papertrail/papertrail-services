@@ -3,6 +3,7 @@ GEM
   specs:
     activesupport (2.3.14)
     addressable (2.2.7)
+    aggregate (0.2.2)
     builder (3.0.0)
     eventmachine (0.12.10)
     faraday (0.7.6)
@@ -25,8 +26,9 @@ GEM
       multi_xml
     i18n (0.6.0)
     kgio (2.6.0)
-    librato-metrics (0.5.0)
-      faraday (~> 0.7.6)
+    librato-metrics (1.0.1)
+      aggregate (~> 0.2.2)
+      faraday (~> 0.7)
       multi_json
     mail (2.3.0)
       i18n (>= 0.4.0)
@@ -82,7 +84,7 @@ DEPENDENCIES
   foreman
   hipchat-api
   hoptoad_notifier
-  librato-metrics (~> 0.5)
+  librato-metrics (~> 1.0.1)
   mail (~> 2.2)
   mocha
   pg
