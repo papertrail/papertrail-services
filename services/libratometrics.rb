@@ -1,7 +1,8 @@
 # encoding: utf-8
 class Service::LibratoMetrics < Service
   def receive_logs
-    name = settings[:name].gsub(/ +/, '_')
+    name = settings[:name] || payload[:saved_search][:name]
+    name = name.gsub!(/ +/, '_')
 
     # values[hostname][time]
     values = Hash.new do |h,k|
