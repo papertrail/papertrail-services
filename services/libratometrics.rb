@@ -36,6 +36,10 @@ class Service::LibratoMetrics < Service
     unless queue.empty?
       queue.submit
     end
+  rescue Librato::Metrics::ClientError => e
+    if e.message !~ /is too far in the past/
+      raise_config_error("Error sending to Librato Metrics: #{e.message}")
+    end
   rescue Librato::Metrics::CredentialsMissing, Librato::Metrics::Unauthorized
     raise_config_error("Error sending to Librato Metrics: Invalid email address or token")
   rescue Librato::Metrics::MetricsError => e
