@@ -35,6 +35,10 @@ module PapertrailServices
         rescue Service::ConfigurationError => e
           status 400
           e.message
+        rescue Yajl::ParseError => e
+          status 422
+          status "Could not parse settings or payload"
+          'error'
         rescue Object => e
           report_exception(e)
           status 500
