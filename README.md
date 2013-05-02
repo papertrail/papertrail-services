@@ -19,13 +19,13 @@ Search Alert Service Lifecycle
 Writing a Service
 -----------------
 
-All services are found it the [services/][] directory. They must have a method
-named `receive_logs` that is called when a alert is matched.
+All services are found in the [services/][] directory. They must have a method
+named `receive_logs` that is called when an alert is matched.
 
 The settings are available as a `Hash` in the instance method `settings` and
 the event payload is available as a `Hash` in the instance method `payload`.
 
-Helper methods for dealing with basic formatting is available in
+Helper methods for dealing with basic formatting are available in
 [lib/papertrail_services/helpers/logs_helpers.rb][] and also contains a sample
 payload.
 
@@ -113,7 +113,7 @@ We thank them for everything they've done for all of us.
 [test/]: https://github.com/papertrail/papertrail-services/tree/master/test
 [github-services]: https://github.com/github/github-services/
 [sinatra]: http://www.sinatrarb.com/
-[fk]: http://help.github.com/forking/
+[fk]: https://help.github.com/articles/fork-a-repo
 [is]: https://github.com/papertrail/papertrail_services/issues/
 [Papertrail]: http://papertrailapp.com/
 [webhooks documentation]: http://help.papertrailapp.com/kb/how-it-works/web-hooks
