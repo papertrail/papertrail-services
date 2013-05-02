@@ -45,7 +45,7 @@ class Service::HipChat < Service
   end
 
   def deliver(message)
-    hipchat.rooms_message(settings[:room_id], 'Papertrail', message)
+    hipchat.rooms_message(settings[:room_id], 'Papertrail', message, settings[:notify])
   end
 
   def hipchat
