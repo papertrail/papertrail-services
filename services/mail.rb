@@ -62,7 +62,7 @@ class Service::Mail < Service
 
           <div style="font-family:monaco,monospace,courier,'courier new';padding:4px;font-size:11px;border:1px solid #f1f1f1;border-bottom:0;">
             <%- if !payload[:events].empty? -%>
-              <%- payload[:events].slice(0, 1000).each do |event| -%>
+              <%- payload[:events].each do |event| -%>
                 <p style="line-height:1.5em;margin:0;padding:2px 0;border-bottom:1px solid #f1f1f1;">
                   <%= html_syslog_format(event, payload[:saved_search][:html_search_url]) %>
                 </p>
