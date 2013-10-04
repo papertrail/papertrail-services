@@ -35,8 +35,11 @@ module PapertrailServices
         rescue Service::ConfigurationError => e
           status 400
           e.message
+        rescue Net::SMTPSyntaxError => e
+          status 400
+          report_exception(e, :addresses => settings[:addresses])
         rescue Object => e
-          report_exception(e)
+          report_exception(e, :search_alert_id => payload[:saved_search][:id])
           status 500
           'error'
         end
@@ -54,20 +57,20 @@ module PapertrailServices
         Yajl::Encoder.encode(value)
       end
 
-      def report_exception(e)
+      def report_exception(e, additional_attributes = {})
         $stderr.puts "#{request.path_info}: Error: #{e.class}: #{e.message}"
         $stderr.puts "\t#{e.backtrace.join("\n\t")}"
 
         if ENV['HOPTOAD_API_KEY'].present?
           begin
-            HoptoadNotifier.notify(e)
+            HoptoadNotifier.notify(e, :parameters => additional_attributes)
           rescue
           end
         end
 
         if ENV['SENTRY_DSN'].present?
           begin
-            Raven::Rack.capture_exception(e, env)
+            Raven::Rack.capture_exception(e, env, :extra => additional_attributes)
           rescue => e
             puts "Sentry exception: #{e.class}: #{e.message}: #{e.backtrace.join("\n\t")}"
           end
