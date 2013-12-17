@@ -1,4 +1,5 @@
 require 'tilt'
+require 'Digest'
 
 module PapertrailServices
   module Helpers
@@ -27,6 +28,10 @@ module PapertrailServices
         time = Time.zone.at(Time.iso8601(message[:received_at]))
 
         "#{time.strftime('%b %d %X')} #{message[:source_name]} #{message[:program]}: #{message[:message]}"
+      end
+
+      def md5(message)
+          Digest.md5.hexdigest("#{message[:source_name]} #{message[:program]}: #{message[:message]}")
       end
       
       def erb(template, target_binding)
