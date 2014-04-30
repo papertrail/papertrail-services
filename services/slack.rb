@@ -4,18 +4,12 @@ class Service::Slack < Service
     raise_config_error 'Missing slack webhook' if settings[:slack_url].to_s.empty?
     raise_config_error "Slack webhook must point to slack.com" unless settings[:slack_url].to_s.match(/slack\.com/)
     
-    message = %{"#{payload[:saved_search][:name]}" search found #{pluralize(payload[:events].length, 'match')} — #{payload[:saved_search][:html_search_url]}}
-    content = payload[:events].collect { |event| syslog_format(event) }.join("\n")
-    
-    # Provide some basic escaping of ``` in messages
-    content = content.gsub('```', '` ` `')
-
-    attachment = "```" + content + "```"
+    message = %{"#{payload[:saved_search][:name]}" search found #{pluralize(payload[:events].length, 'match')} — <#{payload[:saved_search][:html_search_url]}|#{payload[:saved_search][:html_search_url]}>}
+    attachment = format_content(payload[:events])
 
     data = {
       :text => message,
-      :username => 'papertrail',
-      :icon_url => 'https://0.gravatar.com/avatar/e52fd880666c3708c72496114a64dec0?s=140',
+      :parse => 'none',
       :attachments => [
         {
           :text => attachment,
@@ -31,5 +25,24 @@ class Service::Slack < Service
       puts "slack: #{payload[:saved_search][:id]}: #{response.status}: #{response.body}"
       raise_config_error "Could not submit logs"
     end
+  end
+
+  # Slack truncates attachments at 8000 bytes
+  def format_content(events, limit = 7990)
+    body = ''
+
+    events.each do |event|
+      message = syslog_format(event) + "\n"
+      if (body.length + message.length) < limit
+        body << message
+      else
+        break
+      end
+    end
+
+    # Provide some basic escaping of ``` in messages
+    body = body.gsub('```', '` ` `')
+
+    "```" + body + "```"
   end
 end
