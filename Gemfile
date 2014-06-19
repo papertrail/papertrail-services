@@ -29,6 +29,9 @@ gem 'hipchat-api'
 # service :libratometrics
 gem 'librato-metrics', '~> 1.0.1', :require => "librato/metrics"
 
+# service :aws-sns
+gem 'aws-sdk', '~> 1.43.3'
+
 group :development do
   gem 'foreman'
   gem 'heroku'
