@@ -10,7 +10,7 @@ class Service::Pagerduty < Service
 
     payload[:events].each do |event|
       if settings[:incident_key].present?
-        incident_key = settings[:incident_key].gsub('%HOST%', event[:source_name])
+        incident_key = settings[:incident_key].gsub('%HOST%', event[:source_name]).gsub('%DESC_MD5%', md5(event))
       end
       events_by_incident_key[incident_key] << event
     end
