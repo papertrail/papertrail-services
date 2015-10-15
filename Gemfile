@@ -32,6 +32,9 @@ gem 'librato-metrics', '~> 1.0.1', :require => "librato/metrics"
 # service :aws-sns
 gem 'aws-sdk', '~> 1.43.3'
 
+# service :pushover
+gem 'rushover'
+
 group :development do
   gem 'foreman'
   gem 'heroku'
