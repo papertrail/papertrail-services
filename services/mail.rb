@@ -39,7 +39,7 @@ class Service::Mail < Service
     received_at = Time.zone.parse(message[:received_at])
     url = html_search_url + '?' + { :time => received_at.to_i }.to_query
 
-    s = "<a href=\"#{url}\" style=\"color:#444; text-decoration: none; border-bottom: 1px dotted;\">#{received_at.strftime('%b %d %X')}</a>"
+    s = "<a href=\"#{url}\" style=\"color:#444; text-decoration: none; border-bottom: 1px dashed;\">#{received_at.strftime('%b %d %X')}</a>"
     s << " #{h(message[:source_name])} #{h(message[:program])}: #{h(message[:message])}"
   end
 
