@@ -41,7 +41,7 @@ class Service::Mail < Service
 
     if html_search_url
       url = html_search_url + '?' + { :time => received_at.to_i }.to_query
-      s << "<a href=\"#{url}\" style=\"color:#444;\">#{received_at.strftime('%b %d %X')}</a>"
+      s << "<a href=\"#{url}\" style=\"color:#444; text-decoration: none; border-bottom: 1px dashed;\">#{received_at.strftime('%b %d %X')}</a>"
     else
       s << received_at.strftime('%b %d %X')
     end
@@ -64,7 +64,7 @@ class Service::Mail < Service
           <title>Papertrail</title>
           <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
           <style type="text/css">
-            @media only screen and (max-device-width: 480px) { 
+            @media only screen and (max-device-width: 480px) {
               .body {
                 padding: 0 10px 5px 10px !important;
               }
@@ -74,7 +74,7 @@ class Service::Mail < Service
               }
             }
           </style>
-        </head>  
+        </head>
         <body style="margin:0;padding:0;background:#fff;font-family:'Helvetica Neue', helvetica, arial, sans-serif;padding-bottom:30px;">
           <div class="hdr" style="padding:10px 20px;background:#00488F;margin:0;">
             <img src="http://papertrailapp.com/images/papertrail-transparent-white-278x62.png" width="139" alt="" />
