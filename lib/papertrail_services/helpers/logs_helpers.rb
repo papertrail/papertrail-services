@@ -51,10 +51,16 @@ module PapertrailServices
         }.with_indifferent_access
       end
 
-      def syslog_format(message)
+      def syslog_format(message, maximum_length = nil)
         time = Time.zone.at(Time.iso8601(message[:received_at]))
 
-        "#{time.strftime('%b %d %X')} #{message[:source_name]} #{message[:program]}: #{message[:message]}"
+        s = "#{time.strftime('%b %d %X')} #{message[:source_name]} #{message[:program]}: "
+        if maximum_length && message[:message]
+          truncate_message_at = [ 0, maximum_length - s.length - 1 ].max
+          s << message[:message][0..truncate_message_at]
+        else
+          s << message[:message]
+        end
       end
 
       def erb(template, target_binding)
