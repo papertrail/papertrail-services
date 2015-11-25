@@ -3,21 +3,40 @@ require 'aws-sdk'
 
 class CloudWatchTest < PapertrailServices::TestCase
 
-  def setup
-    @common_settings = { aws_access_key_id: '123',
-                         aws_secret_access_key: '456',
-                         namespace: "papertrail-test",
-                         metric_name: "test-metric",
-                       }
+  def make_svc(settings)
     new_payload = payload # payload has some magic and can't be modified
     new_payload[:events].each do |e|
       # Cloudwatch demands recent dates
       e[:received_at] = (Time.now - rand(0..100)).iso8601
     end
 
-    @svc = service(:logs,
-                   @common_settings,
-                   new_payload)
+    service(:logs,
+            settings,
+            new_payload)
+  end
+
+  def setup
+    @common_settings = { aws_access_key_id: '123',
+                         aws_secret_access_key: '456',
+                         metric_namespace: "papertrail-test",
+                         metric_name: "test-metric",
+                         aws_region: "us-east-1"
+                       }
+
+    @svc = make_svc(@common_settings)
+  end
+
+  def test_required_settings
+    settings = { aws_access_key_id: '123',
+                         aws_secret_access_key: '456',
+                         metric_namespace: "papertrail-test",
+                         metric_name: "test-metric",
+                       }
+    svc = make_svc(settings)
+
+    assert_raises(PapertrailServices::Service::ConfigurationError) {
+      svc.receive_logs
+    }
   end
 
   def test_size

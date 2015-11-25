@@ -2,11 +2,8 @@ require 'aws-sdk'
 
 class Service::CloudWatch < Service
 
-  def prepare_post_data(events, size_limit = 8192, max_days = 14)
-
-    counts = event_counts_by_received_at(events)
-
-    metric_data = counts.map do |time, count|
+  def metrics_from_counts(counts, max_days = 14)
+    counts.map do |time, count|
       timestamp = Time.at(time)
       if timestamp < Time.now - 60 * 60 * 24 * max_days
         raise_config_error "CloudWatch will not accept #{timestamp.iso8601} timestamp; it is more than #{max_days} days old"
@@ -17,9 +14,16 @@ class Service::CloudWatch < Service
         value: count,
       }
     end
+  end
+
+  def prepare_post_data(events, size_limit = 8192, max_days = 14)
+
+    counts = event_counts_by_received_at(events)
+
+    metric_data = metrics_from_counts(counts, max_days)
 
     post_data = {
-      namespace: settings[:namespace],
+      namespace: settings[:metric_namespace],
       metric_data: metric_data
     }
 
@@ -28,34 +32,32 @@ class Service::CloudWatch < Service
     post_json = post_data.to_json
 
     if post_json.length <= size_limit
-      ret << post_data
+      [post_data]
     else
-      metric_data.each do |d| # one for each timestamp is as small as this can go
+      metric_data.map do |d| # one for each timestamp is as small as this can go
         post_data = {
-          namespace: settings[:namespace],
+          namespace: settings[:metric_namespace],
           metric_data: d
         }
         post_json = post_data.to_json
         if post_json.length > size_limit # pathological case
           raise_config_error "Logs exceed CloudWatch payload limit of #{size_limit} bytes"
         end
-        ret << post_json
+        post_json
       end
     end
-
-    ret
   end
 
   def receive_logs
     required_settings = [:aws_access_key_id,
                          :aws_secret_access_key,
                          :aws_region,
-                         :namespace,
+                         :metric_namespace,
                          :metric_name,
                         ]
     required_settings.each do |setting|
       raise_config_error "Missing required setting #{setting}" if
-        setting.to_s.empty?
+        settings[setting].to_s.empty?
     end
 
     if settings[:metric_namespace].present?
