@@ -13,6 +13,7 @@ gem 'scrolls'
 
 gem 'metriks'
 gem 'metriks-librato_metrics'
+gem 'newrelic_rpm'
 
 gem 'hoptoad_notifier'
 gem "sentry-raven"

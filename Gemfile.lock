@@ -68,6 +68,7 @@ GEM
     multipart-post (1.2.0)
     net-http-persistent (2.9.4)
     netrc (0.7.7)
+    newrelic_rpm (3.17.2.327)
     nokogiri (1.6.2.1)
       mini_portile (= 0.6.0)
     pg (0.14.1)
@@ -139,6 +140,7 @@ DEPENDENCIES
   metriks-librato_metrics
   mocha
   net-http-persistent
+  newrelic_rpm
   pg
   puma
   rake
@@ -152,4 +154,4 @@ DEPENDENCIES
   yajl-ruby
 
 BUNDLED WITH
-   1.10.6
+   1.13.1
