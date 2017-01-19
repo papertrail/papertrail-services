@@ -1,9 +1,20 @@
 # encoding: utf-8
 class Service::Stathat < Service
+  def receive_counts
+    raise_config_error 'Missing EZ Key' if settings[:ezkey].to_s.empty?
+    raise_config_error 'Missing stat name' if settings[:stat].to_s.empty?
+
+    submit_metric_data(counts_payload_to_metrics)
+  end
+
   def receive_logs
     raise_config_error 'Missing EZ Key' if settings[:ezkey].to_s.empty?
     raise_config_error 'Missing stat name' if settings[:stat].to_s.empty?
 
+    submit_metric_data(logs_payload_to_metrics)
+  end
+
+  def logs_payload_to_metrics
     counts = Hash.new do |h,k|
       h[k] = 0
     end
@@ -13,14 +24,34 @@ class Service::Stathat < Service
       counts[time] += 1
     end
 
-    data = counts.map do |time, count|
+    counts.map do |time, count|
       {
         :stat => settings[:stat],
         :count => count,
         :t => time
       }
     end
+  end
 
+  def counts_payload_to_metrics
+    metrics = Hash.new { |h, k| h[k] = 0 }
+
+    payload[:counts].each do |count|
+      count[:timeseries].each do |t, i|
+        metrics[t.to_i] += i
+      end
+    end
+
+    metrics.map do |time, count|
+      {
+        :stat => settings[:stat],
+        :count => count,
+        :t => time
+      }
+    end
+  end
+
+  def submit_metric_data(data)
     # Submissions are limited to 1,000 datapoints, so we'll ensure we stay
     # way under by submitting 500 at a time
     data.each_slice(500) do |data_slice|

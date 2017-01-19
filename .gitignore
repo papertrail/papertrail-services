@@ -4,3 +4,4 @@ tmp
 config/local.env
 vendor/bundle
 *~
+log/
