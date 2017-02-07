@@ -21,6 +21,18 @@ class MailTest < PapertrailServices::TestCase
     assert_not_nil message
   end
 
+  def test_html_syslog_format
+    svc = service(:logs, { :addresses => 'eric@papertrail.com' }, payload)
+
+    url = "https://papertrailapp.com/groups/999/events?q=searchstring&q_id=99999999"
+    syslog_format = svc.html_syslog_format(payload[:events].first, url)
+
+    assert_match '<a href="https://papertrailapp.com/groups/999/events?', syslog_format
+    assert_match 'centered_on_id=31171139124469760', syslog_format
+    assert_match 'q=searchstring', syslog_format
+    assert_match 'q_id=99999999', syslog_format
+  end
+
   def test_mail_message_multiple_recipients
     svc = service(:logs, { :addresses => 'eric@papertrail.com,troy@papertrail.com;larry@papertrail.com' }, payload)
 
