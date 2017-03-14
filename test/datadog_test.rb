@@ -16,7 +16,6 @@ class DatadogTest < PapertrailServices::TestCase
     svc = service(:logs, { 'api_key' => 'foobar', "metric" => "foo.bar" }.with_indifferent_access, payload)
 
     http_stubs.post "/api/v1/series" do |env|
-      body = JSON(env[:body])
 
       [200, {}, ""]
     end
@@ -25,26 +24,14 @@ class DatadogTest < PapertrailServices::TestCase
   end
 
   def test_tagged_logs
-    svc = service(:logs, { 'api_key' => 'foobar', "metric" => "foo.bar", 'tags' => 'environment:production,sender:papertrail' }.with_indifferent_access, payload)
+    svc = service(:logs, { 'api_key' => 'foobar', "metric" => "foo.bar", 'tags' => 'environment:production,sender:papertrail, type:error' }.with_indifferent_access, payload)
 
     http_stubs.post "/api/v1/series" do |env|
       body = JSON(env[:body])
 
       assert body['series'][0]['tags'][0] == 'environment:production'
-
-      [200, {}, ""]
-    end
-
-    svc.receive_logs
-  end
-
-  def test_space_tagged_logs
-    svc = service(:logs, { 'api_key' => 'foobar', "metric" => "foo.bar", 'tags' => 'environment:staging, sender:papertrail' }.with_indifferent_access, payload)
-
-    http_stubs.post "/api/v1/series" do |env|
-      body = JSON(env[:body])
-
-      assert body['series'][0]['tags'][0] == 'environment:staging'
+      assert body['series'][0]['tags'][1] == 'sender:papertrail'
+      assert body['series'][0]['tags'][2] == 'type:error'
 
       [200, {}, ""]
     end
