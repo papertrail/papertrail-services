@@ -5,7 +5,7 @@ class Service::Datadog < Service
     raise_config_error 'Missing metric name' if settings[:metric].to_s.empty?
 
     unless settings[:tags].to_s.empty?
-      tags = settings[:tags].to_s.split(/,\s*/)
+      tags = settings[:tags].to_s.split(/\s*,\s*/)
     end
 
     # values[hostname][time]
