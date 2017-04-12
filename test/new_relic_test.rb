@@ -15,7 +15,7 @@ class NewRelicTest < PapertrailServices::TestCase
   def test_logs
     svc = service(:logs, { 'insights_api_key' => '9872--3042dtshN3oen', "account_id" => "531007"}.with_indifferent_access, payload)
 
-    http_stubs.post "/v1/accounts/#{settings[:account_id]}/events" do |env|
+    http_stubs.post "/v1/accounts/531007/events" do |env|
       [200, {}, ""]
     end
 

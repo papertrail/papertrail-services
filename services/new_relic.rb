@@ -4,10 +4,9 @@ class Service::NewRelic < Service
     raise_config_error 'Missing API key' if settings[:insights_api_key].to_s.empty?
     
     post_url = "https://insights-collector.newrelic.com/v1/accounts/#{settings[:account_id]}/events"
-    http.headers = {
-        'Content-Type' => 'application/json'
-        'X-Insert-Key' => "#{settings[:insights_api_key]}"
-      }
+    http.headers['Content-Type'] = 'application/json'
+    http.headers['X-Insert-Key'] = settings[:insights_api_key]
+
     
     response = http_post post_url, (format_events(payload[:events])).to_json
 
@@ -29,7 +28,7 @@ class Service::NewRelic < Service
       # https://docs.newrelic.com/docs/insights/explore-data/custom-events/insert-custom-events-insights-api#limits
       
       event[:received_at] = Time.iso8601(event[:received_at]).to_i
-      event[:message] = event[:message].truncate(4000, separator: /\s/)
+      event[:message] = event[:message].truncate(4000, :separator => ' ')
     end
   end
 end
