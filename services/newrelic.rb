@@ -16,7 +16,7 @@ class Service::NewRelic < Service
     response = http_post post_url, json_limited(payload, size_limit, formatted_events)
 
     unless response.success?
-      puts "new_relic: #{payload[:saved_search][:id]}: #{response.status}: #{response.body}"
+      puts "newrelic: #{payload[:saved_search][:id]}: #{response.status}: #{response.body}"
       raise_config_error "Could not submit log events to New Relic Insights"
     end
   end
