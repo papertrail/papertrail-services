@@ -11,7 +11,7 @@ class Service::NewRelic < Service
     http.headers['Content-Type'] = 'application/json'
     http.headers['X-Insert-Key'] = settings[:insights_api_key]
 
-    formatted_events = format_events(payload[:events][0,event_limit])
+    formatted_events = payload[:events][0,event_limit].collect { |event| format_event(event) }
     
     response = http_post post_url, json_limited(payload, size_limit, formatted_events)
 
@@ -20,20 +20,20 @@ class Service::NewRelic < Service
       raise_config_error "Could not submit log events to New Relic Insights"
     end
   end
-    
-  def format_events(events)
-    events.each do |event|
-      
-      # Set an event type (table name) # TODO: make these configurable?
-      event[:eventType] = 'PapertrailAlert'
-      # Give the event a name corresponding to the saved search (in case there are multiple alerts sending)
-      event[:search_name] = payload[:saved_search][:name]
-      
-      # Format the attributes so Insights handles them properly/doesn't reject them: see
-      # https://docs.newrelic.com/docs/insights/explore-data/custom-events/insert-custom-events-insights-api#limits
-      
-      event[:timestamp] = event[:received_at] = Time.iso8601(event[:received_at]).to_i
-      event[:message] = event[:message].truncate(4000, :separator => ' ')
-    end
+
+  def format_event(event)
+    # Set an event type (table name)
+    event[:eventType] = 'PapertrailAlert'
+    # Give the event a name corresponding to the saved search (in case there are multiple alerts sending)
+    event[:search_name] = payload[:saved_search][:name]
+
+    # Format the attributes so Insights handles them properly/doesn't reject them: see
+    # https://docs.newrelic.com/docs/insights/explore-data/custom-events/insert-custom-events-insights-api#limits
+
+    event[:timestamp] = event[:received_at] = Time.iso8601(event[:received_at]).to_i
+    event[:message] = event[:message].truncate(4000, :separator => ' ')
+
+    event
   end
+
 end
