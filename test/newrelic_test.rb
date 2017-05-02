@@ -59,10 +59,10 @@ class NewRelicTest < PapertrailServices::TestCase
       
       body = JSON(env[:body])
         
-      assert(body['events'][0]['eventType'] == 'PapertrailAlert', "Did not find expected event type key")
-      assert(body['events'][0]['search_name'] == 'cron', "Did not find expected search name key")
-      assert(body['events'][0]['message'].bytesize < 4000, "Included a message that is too long")
-      assert(body['events'][0]['received_at'].to_i == body['events'][0]['received_at'], "received_at is not a number")
+      assert(body[0]['eventType'] == 'PapertrailAlert', "Did not find expected event type key")
+      assert(body[0]['search_name'] == 'cron', "Did not find expected search name key")
+      assert(body[0]['message'].bytesize < 4000, "Included a message that is too long")
+      assert(body[0]['received_at'].to_i == body[0]['received_at'], "received_at is not a number")
 
       [200, {}, ""]
       

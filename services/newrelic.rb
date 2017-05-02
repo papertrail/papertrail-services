@@ -13,7 +13,7 @@ class Service::NewRelic < Service
 
     formatted_events = payload[:events][0,event_limit].collect { |event| format_event(event) }
     
-    response = http_post post_url, json_limited(payload, size_limit, formatted_events)
+    response = http_post post_url, json_limited(formatted_events, size_limit, formatted_events)
 
     unless response.success?
       puts "newrelic: #{payload[:saved_search][:id]}: #{response.status}: #{response.body}"
