@@ -32,6 +32,7 @@ class Service::NewRelic < Service
 
     event[:timestamp] = event[:received_at] = Time.iso8601(event[:received_at]).to_i
     event[:message] = event[:message].truncate(4000, :separator => ' ')
+    event[:id] = event[:id].to_s
 
     event
   end
