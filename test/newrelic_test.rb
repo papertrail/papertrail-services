@@ -58,13 +58,13 @@ class NewRelicTest < PapertrailServices::TestCase
     http_stubs.post "/v1/accounts/531007/events" do |env|
       
       body = JSON(env[:body])
-        
+
       assert(body[0]['eventType'] == 'PapertrailAlert', "Did not find expected event type key")
       assert(body[0]['search_name'] == 'cron', "Did not find expected search name key")
-      assert(body[0]['message'].bytesize < 4000, "Included a message that is too long")
       assert(body[0]['received_at'].to_i == body[0]['received_at'], "received_at is not a number")
       assert(body[0]['id'].to_s == body[0]['id'], "id is not a string")
       assert(body[0]['source_id'].to_s == body[0]['source_id'], "source_id is not a string")
+      assert(body[0]['message'].bytesize < 4096, "Included a message that is too long")
 
       [200, {}, ""]
       

@@ -22,20 +22,34 @@ class Service::NewRelic < Service
   end
 
   def format_event(event)
-    # Set an event type (table name)
-    event[:eventType] = 'PapertrailAlert'
-    # Give the event a name corresponding to the saved search (in case there are multiple alerts sending)
-    event[:search_name] = payload[:saved_search][:name]
+    # create an event with extra attributes & formats for Insights
+    # eventType: table name; search_name: distinguishes events from different searches
+    # formats: see https://docs.newrelic.com/docs/insights/explore-data/custom-events/insert-custom-events-insights-api#limits
 
-    # Format the attributes so Insights handles them properly/doesn't reject them: see
-    # https://docs.newrelic.com/docs/insights/explore-data/custom-events/insert-custom-events-insights-api#limits
+    formatted_event = {
+      :eventType => 'PapertrailAlert',
+      :search_name => payload[:saved_search][:name],
+      :timestamp => Time.iso8601(event[:received_at]).to_i,
+      :received_at => Time.iso8601(event[:received_at]).to_i,
+      :display_received_at => event[:display_received_at],
+      :id => event[:id].to_s,
+      :source_id => event[:source_id].to_s,
+      :source_ip => event[:source_ip],
+      :source_name => event[:source_name],
+      :facility => event[:facility],
+      :severity => event[:severity],
+      :hostname => event[:hostname],
+      :program => event[:program],
+      :message => event[:message]
+    }
 
-    event[:timestamp] = event[:received_at] = Time.iso8601(event[:received_at]).to_i
-    event[:message] = event[:message].truncate(4000, :separator => ' ')
-    event[:id] = event[:id].to_s
-    event[:source_id] = event[:source_id].to_s
+    if event[:message].length >= 4000
+      formatted_event[:message] = event[:message][0..4000] + '...'
+    else
+      formatted_event[:message] = event[:message]
+    end
 
-    event
+    formatted_event
   end
 
 end
