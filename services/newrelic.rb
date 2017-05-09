@@ -22,11 +22,18 @@ class Service::NewRelic < Service
   end
 
   def format_event(event)
-    # create an event with extra attributes & formats for Insights
+    # Truncate messages too long for Insights
+    if event[:message].length >= 4000
+      message = event[:message][0..4000] + '...'
+    else
+      message = event[:message]
+    end
+
+    # return an event with extra attributes & formats for Insights
     # eventType: table name; search_name: distinguishes events from different searches
     # formats: see https://docs.newrelic.com/docs/insights/explore-data/custom-events/insert-custom-events-insights-api#limits
 
-    formatted_event = {
+    {
       :eventType => 'PapertrailAlert',
       :search_name => payload[:saved_search][:name],
       :timestamp => Time.iso8601(event[:received_at]).to_i,
@@ -40,16 +47,8 @@ class Service::NewRelic < Service
       :severity => event[:severity],
       :hostname => event[:hostname],
       :program => event[:program],
-      :message => event[:message]
+      :message => message
     }
-
-    if event[:message].length >= 4000
-      formatted_event[:message] = event[:message][0..4000] + '...'
-    else
-      formatted_event[:message] = event[:message]
-    end
-
-    formatted_event
   end
 
 end
