@@ -64,6 +64,7 @@ class NewRelicTest < PapertrailServices::TestCase
       assert(body[0]['message'].bytesize < 4000, "Included a message that is too long")
       assert(body[0]['received_at'].to_i == body[0]['received_at'], "received_at is not a number")
       assert(body[0]['id'].to_s == body[0]['id'], "id is not a string")
+      assert(body[0]['source_id'].to_s == body[0]['source_id'], "source_id is not a string")
 
       [200, {}, ""]
       
