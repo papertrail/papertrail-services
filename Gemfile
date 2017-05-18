@@ -47,11 +47,8 @@ end
 
 group :production do
   gem 'pg'
-
-  # Use unicorn as the web server
-  gem 'unicorn'
-
   gem 'puma'
+  gem 'rack-timeout'
 end
 
 group :test do

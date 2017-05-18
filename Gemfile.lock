@@ -41,7 +41,6 @@ GEM
       multi_xml
     i18n (0.6.1)
     json (1.7.5)
-    kgio (2.8.0)
     launchy (2.1.2)
       addressable (~> 2.3)
     librato-metrics (1.0.3)
@@ -73,12 +72,11 @@ GEM
       mini_portile (= 0.6.0)
     pg (0.14.1)
     polyglot (0.3.3)
-    puma (1.6.3)
-      rack (~> 1.2)
+    puma (2.15.3)
     rack (1.5.2)
     rack-protection (1.3.2)
       rack
-    raindrops (0.10.0)
+    rack-timeout (0.3.2)
     rake (10.0.3)
     rest-client (1.6.7)
       mime-types (>= 1.16)
@@ -116,10 +114,6 @@ GEM
       http_parser.rb (~> 0.5.1)
       simple_oauth (~> 0.1.4)
     tzinfo (0.3.36)
-    unicorn (4.6.2)
-      kgio (~> 2.6)
-      rack
-      raindrops (~> 0.7)
     uuidtools (2.1.4)
     yajl-ruby (1.1.0)
 
@@ -143,6 +137,7 @@ DEPENDENCIES
   newrelic_rpm
   pg
   puma
+  rack-timeout
   rake
   rushover
   scrolls
@@ -150,7 +145,6 @@ DEPENDENCIES
   sinatra
   tinder (~> 1.4)
   tzinfo
-  unicorn
   yajl-ruby
 
 BUNDLED WITH
