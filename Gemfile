@@ -38,7 +38,6 @@ gem 'rushover'
 
 group :development do
   gem 'foreman'
-  gem 'heroku'
 end
 
 group :building do
