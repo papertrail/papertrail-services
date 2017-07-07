@@ -73,22 +73,19 @@ class Service::Mail < Service
           <div class="body" style="padding:15px 20px;">
 
           <h3 style="font-weight: normal;">
-            Here <%= Pluralize.new('is', :plural => 'are', :count => event_count, :omit_count => true) %> the
             <strong><%= Pluralize.new('recent event', :count => event_count) %></strong>
-            matching your <a href="<%=h payload[:saved_search][:html_search_url] %>"><%= h payload[:saved_search][:name] %></a> search.
+            matched your <a href="<%=h payload[:saved_search][:html_search_url] %>"><%= h payload[:saved_search][:name] %></a> search.
           </h3>
 
+          <%- if !payload[:events].empty? -%>
           <div style="font-family:monaco,monospace,courier,'courier new';padding:4px;font-size:11px;border:1px solid #f1f1f1;border-bottom:0;">
-            <%- if !payload[:events].empty? -%>
-              <%- payload[:events].each do |event| -%>
-                <p style="line-height:1.5em;margin:0;padding:2px 0;border-bottom:1px solid #f1f1f1;">
-                  <%= html_syslog_format(event, payload[:saved_search][:html_search_url]) %>
-                </p>
-              <%- end -%>
-            <%- else -%>
-              <p>No matching events.</p>
+            <%- payload[:events].each do |event| -%>
+              <p style="line-height:1.5em;margin:0;padding:2px 0;border-bottom:1px solid #f1f1f1;">
+                <%= html_syslog_format(event, payload[:saved_search][:html_search_url]) %>
+              </p>
             <%- end -%>
           </div>
+          <%- end -%>
 
           <h4>About "<%= h payload[:saved_search][:name] %>":</h4>
           <ul>
@@ -114,14 +111,12 @@ class Service::Mail < Service
   def text_email
     erb(unindent(<<-EOF), binding)
 
-      Here <%= Pluralize.new('is', :plural => 'are', :count => event_count, :omit_count => true) %> the <%= Pluralize.new('recent event', :count => event_count) %> matching your "<%= payload[:saved_search][:name] %>" search:
+      <%= Pluralize.new('recent event', :count => event_count) %> matched your "<%= payload[:saved_search][:name] %>" search.
 
       <%- if !payload[:events].empty? -%>
         <%- payload[:events].each do |event| -%>
-      <%= syslog_format(event) %>
+          <%= syslog_format(event) %>
         <%- end -%>
-      <%- else -%>
-      No matching events.
       <%- end -%>
 
 
