@@ -4,7 +4,7 @@ class Service::HostedGraphite < Service
     raise_config_error 'Missing API Key' if settings[:api_key].to_s.empty?
     raise_config_error 'Missing metric name' if settings[:metric].to_s.empty?
 
-    metric_url = 'https://api.hostedgraphite.com/api/v1/sink'
+    metric_url = 'https://www.hostedgraphite.com/api/v1/sink'
     base_metric = settings[:metric]
     search = payload[:saved_search]
     data_to_send = Array.new
