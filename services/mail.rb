@@ -73,7 +73,7 @@ class Service::Mail < Service
           <div class="body" style="padding:15px 20px;">
 
           <h3 style="font-weight: normal;">
-            <strong><%= Pluralize.new('recent event', :count => event_count) %></strong>
+            <strong><%= Pluralize.new('event', :count => event_count) %></strong>
             matched your <a href="<%=h payload[:saved_search][:html_search_url] %>"><%= h payload[:saved_search][:name] %></a> search.
           </h3>
 
@@ -111,7 +111,7 @@ class Service::Mail < Service
   def text_email
     erb(unindent(<<-EOF), binding)
 
-      <%= Pluralize.new('recent event', :count => event_count) %> matched your "<%= payload[:saved_search][:name] %>" search.
+      <%= Pluralize.new('event', :count => event_count) %> matched your "<%= payload[:saved_search][:name] %>" search.
 
       <%- if !payload[:events].empty? -%>
         <%- payload[:events].each do |event| -%>
