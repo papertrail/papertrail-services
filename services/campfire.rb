@@ -9,8 +9,14 @@ class Service::Campfire < Service
       raise_config_error 'No such campfire room'
     end
 
-    message = %{"#{payload[:saved_search][:name]}" search found #{Pluralize.new('match', :count => payload[:events].length)} in the past #{translate_frequency(payload[:frequency])} — #{payload[:saved_search][:html_search_url]}}
-    paste = payload[:events].collect { |event| syslog_format(event) }.join("\n")
+    events      = payload[:events]
+    frequency   = translate_frequency(payload[:frequency])
+    search_name = payload[:saved_search][:name]
+    search_url  = payload[:saved_search][:html_search_url]
+    matches     = Pluralize.new('match', :count => events.length)
+
+    message = %{"#{search_name}" search found #{matches} in the past #{frequency} — #{search_url}}
+    paste = events.collect { |event| syslog_format(event) }.join("\n")
 
     play_sound = settings[:play_sound].to_i == 1
     sound = settings['sound'].blank? ? 'rimshot' : settings['sound']

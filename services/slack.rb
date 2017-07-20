@@ -4,8 +4,14 @@ class Service::Slack < Service
     raise_config_error 'Missing slack webhook' if settings[:slack_url].to_s.empty?
 
     display_messages = settings[:dont_display_messages].to_i != 1
-    events  = payload[:events]
-    message = %{"#{payload[:saved_search][:name]}" search found #{Pluralize.new('match', :count => payload[:events].length)} in the past #{translate_frequency(payload[:frequency])} — <#{payload[:saved_search][:html_search_url]}|#{payload[:saved_search][:html_search_url]}>}
+
+    events      = payload[:events]
+    frequency   = translate_frequency(payload[:frequency])
+    search_name = payload[:saved_search][:name]
+    search_url  = payload[:saved_search][:html_search_url]
+    matches     = Pluralize.new('match', :count => events.length)
+
+    message = %{"#{search_name}" search found #{matches} in the past #{frequency} — <#{search_url}|#{search_url}>}
 
     data = {
       :text => message,
@@ -13,7 +19,7 @@ class Service::Slack < Service
     }
 
     if events.present? && display_messages
-      data[:attachments] = build_attachments(payload[:events])
+      data[:attachments] = build_attachments(events)
     end
 
     http.headers['content-type'] = 'application/json'
