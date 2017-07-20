@@ -16,7 +16,7 @@ class Service::HipChat < Service
     color                 = settings[:color].to_s.downcase
 
     events      = payload[:events]
-    frequency   = payload[:frequency]
+    frequency   = translate_frequency(payload[:frequency])
     search_name = payload[:saved_search][:name]
     search_url  = payload[:saved_search][:html_search_url]
 

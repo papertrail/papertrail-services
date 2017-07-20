@@ -22,7 +22,7 @@ class HipChatTest < PapertrailServices::TestCase
     assert_equal 2, msgs.size
 
     #NOTE: utf-8 dash
-    expected = %{"cron" search found 5 matches in the past 1 minute — <a href=\"https://papertrailapp.com/searches/392\">https://papertrailapp.com/searches/392</a>}
+    expected = %{"cron" search found 5 matches in the past minute — <a href=\"https://papertrailapp.com/searches/392\">https://papertrailapp.com/searches/392</a>}
     assert_equal expected, msgs.first
 
     expected =<<-'EOF'.lines.map(&:lstrip).join
@@ -40,7 +40,7 @@ class HipChatTest < PapertrailServices::TestCase
     rooms = get_chats(payload.dup.merge(:events => []))
     assert_equal 1, rooms.size
     msgs = rooms['r']
-    expected = %{"cron" search found 0 matches in the past 1 minute — <a href=\"https://papertrailapp.com/searches/392\">https://papertrailapp.com/searches/392</a>}
+    expected = %{"cron" search found 0 matches in the past minute — <a href=\"https://papertrailapp.com/searches/392\">https://papertrailapp.com/searches/392</a>}
     assert_equal [expected], msgs
   end
 
@@ -59,7 +59,7 @@ class HipChatTest < PapertrailServices::TestCase
     assert_equal 2, msgs.size
 
     #NOTE: utf-8 dash
-    expected = %{"cron" search found 1 match in the past 1 minute — <a href=\"https://papertrailapp.com/searches/392\">https://papertrailapp.com/searches/392</a>}
+    expected = %{"cron" search found 1 match in the past minute — <a href=\"https://papertrailapp.com/searches/392\">https://papertrailapp.com/searches/392</a>}
     assert_equal expected, msgs.first
 
     expected = 'Feb 28 13:20:01 host1 irb: &lt;pre&gt;escaped&lt;br/&gt;&lt;/pre&gt;'

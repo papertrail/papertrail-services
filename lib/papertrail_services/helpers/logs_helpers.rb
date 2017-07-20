@@ -98,7 +98,7 @@ module PapertrailServices
           timestamp = Time.iso8601(event[:received_at]).to_i
           counts[timestamp] += 1
         end
-        
+
         counts
       end
 
@@ -113,6 +113,15 @@ module PapertrailServices
       def unindent(string)
         indentation = string[/\A\s*/]
         string.strip.gsub(/^#{indentation}/, "") + "\n"
+      end
+
+      def translate_frequency(frequency)
+        case frequency
+        when '1 minute' then 'minute'
+        when '1 hour'   then 'hour'
+        when '1 day'    then 'day'
+        else frequency
+        end
       end
     end
 

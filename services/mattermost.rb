@@ -26,7 +26,7 @@ class Service::Mattermost < Service
   def build_message(payload)
     "#{payload[:saved_search][:name]} search found " \
     "#{Pluralize.new('match', :count => payload[:events].length)} " \
-    "in the past #{payload[:frequency]} " \
+    "in the past #{translate_frequency(payload[:frequency])} " \
     "— <#{payload[:saved_search][:html_search_url]}|" \
     "#{payload[:saved_search][:html_search_url]}>"
   end

@@ -5,7 +5,7 @@ class Service::Slack < Service
 
     display_messages = settings[:dont_display_messages].to_i != 1
     events  = payload[:events]
-    message = %{"#{payload[:saved_search][:name]}" search found #{Pluralize.new('match', :count => payload[:events].length)} in the past #{payload[:frequency]} — <#{payload[:saved_search][:html_search_url]}|#{payload[:saved_search][:html_search_url]}>}
+    message = %{"#{payload[:saved_search][:name]}" search found #{Pluralize.new('match', :count => payload[:events].length)} in the past #{translate_frequency(payload[:frequency])} — <#{payload[:saved_search][:html_search_url]}|#{payload[:saved_search][:html_search_url]}>}
 
     data = {
       :text => message,
