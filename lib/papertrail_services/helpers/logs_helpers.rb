@@ -5,7 +5,7 @@ module PapertrailServices
     module LogsHelpers
       def self.sample_payload
         {
-          "min_id"=>"31171139124469760", "max_id"=>"31181206313902080", "reached_record_limit"=>true,
+          "min_id"=>"31171139124469760", "max_id"=>"31181206313902080", "reached_record_limit"=>true, "frequency"=>"1 minute",
           "saved_search" => {
             "name" => "cron",
             "query" => "cron",
@@ -25,7 +25,7 @@ module PapertrailServices
 
       def self.sample_counts_payload
         {
-          "min_id"=>"31171139124469760", "max_id"=>"31181206313902080", "reached_record_limit"=>true,
+          "min_id"=>"31171139124469760", "max_id"=>"31181206313902080", "reached_record_limit"=>true, "frequency"=>"1 minute",
           "saved_search" => {
             "name" => "cron",
             "query" => "cron",

@@ -60,7 +60,7 @@ This is a sample `payload` that is also available in [lib/papertrail_services/he
 
 ```ruby
 {
-  "min_id"=>"31171139124469760", "max_id"=>"31181206313902080", "reached_record_limit" => true,
+  "min_id"=>"31171139124469760", "max_id"=>"31181206313902080", "reached_record_limit" => true, "frequency"=>"1 minute",
   "saved_search" => {
     "name" => "cron",
     "query" => "cron",
