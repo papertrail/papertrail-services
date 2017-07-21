@@ -4,6 +4,8 @@
 #  https://github.com/librato/papertrail_pagerduty_webhook
 class Service::Pagerduty < Service
   def receive_logs
+    size_limit = 3.megabytes # PagerDuty specified 3mb as of Aug 2016
+
     events_by_incident_key = Hash.new do |h,k|
       h[k] = []
     end
@@ -46,7 +48,7 @@ class Service::Pagerduty < Service
       body[:details][:log_end_url] =
         "#{base_url}?centered_on_id=#{payload[:max_id]}"
 
-      resp = http_post "https://events.pagerduty.com/generic/2010-04-15/create_event.json", body.to_json
+      resp = http_post "https://events.pagerduty.com/generic/2010-04-15/create_event.json", json_limited(body, size_limit, body[:details][:messages])
       unless resp.success?
         error_body = Yajl::Parser.parse(resp.body) rescue nil
 

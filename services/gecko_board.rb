@@ -3,16 +3,16 @@ class Service::GeckoBoard < Service
   attr_writer :geckoboard
 
   def receive_logs
-    raise_config_error 'Missing GeckoBoard API key' if settings[:token].to_s.empty?
-    raise_config_error 'Missing GeckoBoard widget key' if settings[:widget_key].to_s.empty?
+    raise_config_error 'Missing Geckoboard API key' if settings[:token].to_s.empty?
+    raise_config_error 'Missing Geckoboard widget key' if settings[:widget_key].to_s.empty?
 
     deliver(settings[:token], settings[:widget_key], payload[:events].size)
   rescue
-    raise_config_error "Error sending GeckoBoard message: #{$!}"
+    raise_config_error "Error sending Geckoboard message: #{$!}"
   end
 
   def deliver(token, widget_key, value)
-    # http://docs.geckoboard.com/api/push.html
+    # https://developer.geckoboard.com/#pushing-to-your-widget 
     res = http_post URI.join("https://push.geckoboard.com/v1/send/", widget_key).to_s do |req|
       req.headers[:content_type] = 'application/json'
 
@@ -30,7 +30,7 @@ class Service::GeckoBoard < Service
     end
 
     if !res.success?
-      msg = "Error connecting to GeckoBoard (#{res.status})"
+      msg = "Error connecting to Geckoboard (#{res.status})"
       if res.body
         msg += ": " + res.body[0..255]
       end

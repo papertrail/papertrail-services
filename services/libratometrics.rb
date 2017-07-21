@@ -74,7 +74,10 @@ class Service::LibratoMetrics < Service
           :source       => source_name,
           :value        => count,
           :measure_time => time,
-          :type         => 'gauge'
+          :type         => 'gauge',
+          :attributes   => {
+            :backlink => payload[:saved_search][:html_search_url]
+          }
         }
       end
     end

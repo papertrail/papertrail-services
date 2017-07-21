@@ -66,13 +66,16 @@ module PapertrailServices
           Metriks.meter("papertrail_services.#{svc.hook_name}.error").mark
           Metriks.meter("papertrail_services.#{svc.hook_name}.error.email").mark
 
+          Scrolls.log_exception({ :from => :service, :saved_search_id => saved_search_id,
+            :addresses => settings[:addresses] }, e)
+
           status 400
-          report_exception(e, :saved_search_id => saved_search_id,
-            :addresses => settings[:addresses])
         rescue TimeoutError, ::PapertrailServices::Service::TimeoutError
           Metriks.meter("papertrail_services.#{svc.hook_name}.error").mark
           Metriks.meter("papertrail_services.#{svc.hook_name}.error.timeout").mark
-          # report_exception(e, :saved_search_id => payload[:saved_search][:id])
+
+          Scrolls.log_exception({ :from => :service }, e)
+
           status 500
           'error'
         rescue Object => e

@@ -1,0 +1,31 @@
+common: &default_settings
+  app_name: Papertrail Services
+  monitor_mode: true
+  developer_mode: false
+  log_level: warn
+  ssl: true
+  apdex_t: 0.5
+  capture_params: false
+  transaction_tracer:
+    enabled: true
+    transaction_threshold: apdex_f
+    stack_trace_threshold: 0.500
+  error_collector:
+    enabled: true
+
+development:
+  <<: *default_settings
+  monitor_mode: false
+  developer_mode: true
+
+test:
+  <<: *default_settings
+  monitor_mode: false
+
+production:
+  <<: *default_settings
+
+staging:
+  <<: *default_settings
+  monitor_mode: false
+  app_name: Papertrail Services (Staging)

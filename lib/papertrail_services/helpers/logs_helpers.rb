@@ -63,6 +63,51 @@ module PapertrailServices
         end
       end
 
+      def html_syslog_format(message, html_search_url)
+        received_at = Time.zone.at(Time.iso8601(message[:received_at]))
+        s = ''
+
+        if html_search_url
+          url = add_query_params(html_search_url, centered_on_id: message[:id])
+          s << "<a href=\"#{url}\" style=\"color:#444;\">#{received_at.strftime('%b %d %X')}</a>"
+        else
+          s << received_at.strftime('%b %d %X')
+        end
+
+        s << " #{h(message[:source_name])} #{h(message[:program])}: #{h(message[:message])}"
+      end
+
+      def add_query_params(url, params)
+        url = URI.parse(url)
+
+        query = Rack::Utils.parse_query(url.query).with_indifferent_access.merge(params)
+
+        url.query = query.to_query
+        url.to_s
+      end
+
+      def source_names(events, count)
+        hosts = events.collect { |e| e[:source_name] }.sort.uniq
+        if hosts.length < count
+          "#{hosts.join(', ')}"
+        else
+          "from #{hosts.length} hosts"
+        end
+      end
+
+      def event_counts_by_received_at(events)
+        counts = Hash.new do |h,k|
+          h[k] = 0
+        end
+
+        events.each do |event|
+          timestamp = Time.iso8601(event[:received_at]).to_i
+          counts[timestamp] += 1
+        end
+        
+        counts
+      end
+
       def erb(template, target_binding)
         ERB.new(template, nil, '-').result(target_binding)
       end
