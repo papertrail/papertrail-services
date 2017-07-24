@@ -115,13 +115,14 @@ module PapertrailServices
         string.strip.gsub(/^#{indentation}/, "") + "\n"
       end
 
-      def translate_frequency(frequency)
-        case frequency
+      def frequency_phrase(frequency)
+        frequency = case frequency
         when '1 minute' then 'minute'
         when '1 hour'   then 'hour'
         when '1 day'    then 'day'
-        else frequency
         end
+
+        'in the past ' + frequency
       end
     end
 

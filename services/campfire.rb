@@ -10,12 +10,12 @@ class Service::Campfire < Service
     end
 
     events      = payload[:events]
-    frequency   = translate_frequency(payload[:frequency])
+    frequency   = frequency_phrase(payload[:frequency])
     search_name = payload[:saved_search][:name]
     search_url  = payload[:saved_search][:html_search_url]
     matches     = Pluralize.new('match', :count => events.length)
 
-    message = %{"#{search_name}" search found #{matches} in the past #{frequency} — #{search_url}}
+    message = %{"#{search_name}" search found #{matches} #{frequency} — #{search_url}}
     paste = events.collect { |event| syslog_format(event) }.join("\n")
 
     play_sound = settings[:play_sound].to_i == 1

@@ -16,7 +16,7 @@ class Service::HipChat < Service
     color                 = settings[:color].to_s.downcase
 
     events      = payload[:events]
-    frequency   = translate_frequency(payload[:frequency])
+    frequency   = frequency_phrase(payload[:frequency])
     search_name = payload[:saved_search][:name]
     search_url  = payload[:saved_search][:html_search_url]
 
@@ -24,7 +24,7 @@ class Service::HipChat < Service
 
     matches = Pluralize.new('match', :count => events.size)
 
-    deliver %{"#{search_name}" search found #{matches} in the past #{frequency} — <a href="#{search_url}">#{search_url}</a>}, color
+    deliver %{"#{search_name}" search found #{matches} #{frequency} — <a href="#{search_url}">#{search_url}</a>}, color
 
     if !events.empty? && !dont_display_messages
       logs, remaining = [], MESSAGE_LIMIT
