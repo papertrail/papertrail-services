@@ -122,7 +122,7 @@ module PapertrailServices
         when '1 day'    then 'day'
         end
 
-        'in the past ' + frequency
+        "in the past #{frequency}"
       end
     end
 
