@@ -120,6 +120,7 @@ module PapertrailServices
         when '1 minute' then 'minute'
         when '1 hour'   then 'hour'
         when '1 day'    then 'day'
+        else frequency
         end
 
         "in the past #{frequency}"
