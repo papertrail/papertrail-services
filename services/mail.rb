@@ -112,7 +112,7 @@ class Service::Mail < Service
   def text_email
     erb(unindent(<<-EOF), binding)
 
-      <%= Pluralize.new('event', :count => event_count) %> matched your "<%= payload[:saved_search][:name] %>" search in the past <%= translate_frequency(payload[:frequency]) %>..
+      <%= Pluralize.new('event', :count => event_count) %> matched your "<%= payload[:saved_search][:name] %>" search in the past <%= translate_frequency(payload[:frequency]) %>.
 
       <%- if !payload[:events].empty? -%>
         <%- payload[:events].each do |event| -%>
