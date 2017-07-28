@@ -28,7 +28,7 @@ class Service::Datadog < Service
         :points => points.to_a,
         :host => hostname,
         :tags => tags,
-        :type => 'counter'
+        :type => 'gauge'
       }
     end
 
