@@ -19,6 +19,7 @@ class Service::Mail < Service
       mail.to recipients
       mail['reply-to'] = recipients.join(', ')
       mail['X-Report-Abuse-To'] = 'support@papertrailapp.com'
+      mail['X-Future-From'] = 'alert@papertrailapp.com'
       mail['List-Unsubscribe'] = "<#{payload[:saved_search][:html_edit_url]}>"
       mail.subject %{[Papertrail] "#{payload[:saved_search][:name]}" alert: #{Pluralize.new('match', :count => payload[:events].length)} (at #{alert_time})}
 
