@@ -70,7 +70,7 @@ class Service::Pagerduty < Service
     else
       frequency   = frequency_phrase(payload[:frequency])
       search_url  = payload[:saved_search][:html_search_url]
-      description = %{"#{settings[:description]} found 0 matches #{frequency}}
+      description = %{#{settings[:description]} found 0 matches #{frequency}}
 
       body = {
         :description => description,
