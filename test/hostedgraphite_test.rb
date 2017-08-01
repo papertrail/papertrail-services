@@ -3,13 +3,13 @@ require File.expand_path('../helper', __FILE__)
 class HostedGraphiteTest < PapertrailServices::TestCase
   def test_config
     serv = service(:logs, {}.with_indifferent_access, counts_payload)
-    assert_raises(PapertrailServices::Service::ConfigurationError) { serv.receive_logs }
+    assert_raises(PapertrailServices::Service::ConfigurationError) { serv.receive_counts }
 
     serv = service(:logs, {"api_key" => "foobar"}.with_indifferent_access,counts_payload)
-    assert_raises(PapertrailServices::Service::ConfigurationError) { serv.receive_logs }
+    assert_raises(PapertrailServices::Service::ConfigurationError) { serv.receive_counts }
 
     serv = service(:logs, {"metric" => "foobar"}.with_indifferent_access,counts_payload)
-    assert_raises(PapertrailServices::Service::ConfigurationError) { serv.receive_logs }
+    assert_raises(PapertrailServices::Service::ConfigurationError) { serv.receive_counts }
 
   end
 
@@ -21,7 +21,7 @@ class HostedGraphiteTest < PapertrailServices::TestCase
         [200, {}, ""]
     end
 
-    serv.receive_logs
+    serv.receive_counts
   end
 
   def test_payload_empty
@@ -29,14 +29,14 @@ class HostedGraphiteTest < PapertrailServices::TestCase
                           }.with_indifferent_access,
                           {})
 
-    serv.receive_logs
+    serv.receive_counts
   end
 
   def test_invalid_payload
     serv = service(:logs, {"api_key" => "foo-bar-baz", "metric" => "nice.metric.name",
                           }.with_indifferent_access,
                           payload)
-    serv.receive_logs
+    serv.receive_counts
   end
 
   def service(*args)

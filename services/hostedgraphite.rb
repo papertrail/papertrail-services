@@ -1,6 +1,6 @@
 # encoding: utf-8
 class Service::HostedGraphite < Service
-  def receive_logs
+  def receive_counts
     raise_config_error 'Missing API Key' if settings[:api_key].to_s.empty?
     raise_config_error 'Missing metric name' if settings[:metric].to_s.empty?
 
