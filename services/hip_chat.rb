@@ -28,7 +28,7 @@ class Service::HipChat < Service
     if !events.empty? && !dont_display_messages
       logs, remaining = [], MESSAGE_LIMIT
       events.each do |event|
-        new_entry = CGI.escapeHTML(syslog_format(event, MESSAGE_LIMIT)) + "\n"
+        new_entry = CGI.escapeHTML(syslog_format(event, MESSAGE_LIMIT - 1)) + "\n"
         remaining -= new_entry.size
         if remaining >= 0
           logs << new_entry
