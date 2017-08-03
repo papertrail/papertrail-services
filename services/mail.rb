@@ -101,7 +101,7 @@ class Service::Mail < Service
             <p>
               <strong>Upcoming change</strong>
               <br />
-              Beginning September 12, this email will come from alert@papertrailapp.com. <a href="http://www.papertrailstatus.com/">read more</a>
+              Beginning September 12, this email will come from alert@papertrailapp.com. <a href="http://www.papertrailstatus.com/">Read more »</a>
             </p>
           </div>
             <div style="color:#444;font-size:12px;line-height:130%;border-top:1px solid #ddd;margin-top:35px;">
