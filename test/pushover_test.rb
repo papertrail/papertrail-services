@@ -1,7 +1,6 @@
 require File.expand_path('../helper', __FILE__)
 
 class PushoverTest < PapertrailServices::TestCase
-
   def test_config
     svc = service(:logs, {:token => 'a sample token'}, payload)
     assert_raises(PapertrailServices::Service::ConfigurationError) { svc.receive_logs }
@@ -9,7 +8,7 @@ class PushoverTest < PapertrailServices::TestCase
     svc = service(:logs, {:user_key => 'a different token'}, payload)
     assert_raises(PapertrailServices::Service::ConfigurationError) { svc.receive_logs }
   end
-  
+
   def test_logs
     svc = service(:logs, {:token => 'a sample token',
                           :user_key => 'a different token'},
@@ -20,13 +19,9 @@ class PushoverTest < PapertrailServices::TestCase
 
       svc.receive_logs
     end
-
-
-
   end
 
   def service(*args)
     super Service::Pushover, *args
   end
-  
 end

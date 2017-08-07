@@ -43,9 +43,7 @@ class Service::Pushover < Service
     end
   end
 
-
   def pushover
     @pushover ||= Rushover::Client.new(settings[:token])
   end
-
 end
