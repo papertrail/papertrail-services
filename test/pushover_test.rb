@@ -10,15 +10,37 @@ class PushoverTest < PapertrailServices::TestCase
   end
 
   def test_logs
-    svc = service(:logs, {:token => 'a sample token',
-                          :user_key => 'a different token'},
-                  payload)
+    svc = service(:logs, {:token => 'a sample token', :user_key => 'a different token'}, payload)
 
+    body = nil
     http_stubs.post '/1/messages.json' do |env|
-      [200, {:content_type => "application/json"}, { :status => 1 }.to_json]
-
-      svc.receive_logs
+      body = JSON(env[:body], symbolize_names: true)
+      [200, {}, '']
     end
+
+    svc.receive_logs
+
+    assert_not_nil body
+    assert_equal 5, body[:message].length
+    assert_equal 'cron (alien, lullaby)', body[:title]
+    assert_equal 'https://papertrailapp.com/searches/392', body[:url]
+  end
+
+  def test_no_logs
+    svc = service(:logs, {:token => 'a sample token', :user_key => 'a different token'}, payload.dup.merge(:events => []))
+
+    body = nil
+    http_stubs.post '/1/messages.json' do |env|
+      body = JSON(env[:body], symbolize_names: true)
+      [200, {}, '']
+    end
+
+    svc.receive_logs
+
+    assert_not_nil body
+    assert_equal '0 matches found in the past minute', body[:message]
+    assert_equal 'cron', body[:title]
+    assert_equal 'https://papertrailapp.com/searches/392', body[:url]
   end
 
   def service(*args)
