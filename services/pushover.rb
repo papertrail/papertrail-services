@@ -19,7 +19,7 @@ class Service::Pushover < Service
       :url_title => "View logs on Papertrail"
     }
 
-    resp = http_post("https://api.pushover.net/1/messages.json", post_data)
+    resp = http_post("https://api.pushover.net/1/messages.json", post_data.to_json)
 
     unless resp.success?
       puts "pushover: #{resp.to_s}"
