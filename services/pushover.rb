@@ -1,8 +1,6 @@
 # coding: utf-8
 
 class Service::Pushover < Service
-  attr_writer :pushover
-
   def post_data(body)
     message = body[:message]
     message = message[0..1020] + "..." if message.length > 1024
@@ -11,14 +9,19 @@ class Service::Pushover < Service
       raise_config_error "Could not process payload"
     end
 
-    resp = pushover.notify(settings[:user_key],
-                           message,
-                           {title: body[:title],
-                            timestamp: body[:timestamp].to_i,
-                            url: body[:search_url],
-                            url_title: "View logs on Papertrail"})
+    post_data = {
+      :token => settings[:token],
+      :user => settings[:user_key],
+      :title => body[:title],
+      :message => message,
+      :timestamp => body[:timestamp].to_i,
+      :url => payload[:saved_search][:html_search_url],
+      :url_title => "View logs on Papertrail"
+    }
 
-    unless resp.ok?
+    resp = http_post("https://api.pushover.net/1/messages.json", post_data)
+
+    unless resp.success?
       puts "pushover: #{resp.to_s}"
 
       raise_config_error "Failed to post to Pushover"
@@ -50,8 +53,7 @@ class Service::Pushover < Service
       body = {
         :title => title,
         :message => message,
-        :timestamp => Time.iso8601(events[0][:received_at]),
-        :search_url => payload[:saved_search][:html_search_url]
+        :timestamp => Time.iso8601(events[0][:received_at])
       }
 
       post_data(body)
@@ -62,15 +64,10 @@ class Service::Pushover < Service
       body = {
         :title => title,
         :message => message,
-        :timestamp => Time.now,
-        :search_url => payload[:saved_search][:html_search_url]
+        :timestamp => Time.now
       }
 
       post_data(body)
     end
-  end
-
-  def pushover
-    @pushover ||= Rushover::Client.new(settings[:token])
   end
 end

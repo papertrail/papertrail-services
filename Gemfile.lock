@@ -67,11 +67,6 @@ GEM
       rack
     raindrops (0.10.0)
     rake (10.0.3)
-    rest-client (1.6.7)
-      mime-types (>= 1.16)
-    rushover (0.3.0)
-      json
-      rest-client
     scrolls (0.3.8)
     sentry-raven (0.6.0)
       faraday (>= 0.7.6)
@@ -129,7 +124,6 @@ DEPENDENCIES
   pg
   puma
   rake
-  rushover
   scrolls
   sentry-raven
   sinatra
@@ -138,5 +132,8 @@ DEPENDENCIES
   unicorn
   yajl-ruby
 
+RUBY VERSION
+   ruby 1.9.3p545
+
 BUNDLED WITH
-   1.13.1
+   1.13.7
