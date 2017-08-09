@@ -3,13 +3,12 @@
 class Service::Pushover < Service
   def post_data(body)
     message = body[:message]
+    message = message.join(', ') if message.is_a?(Array)
     message = message[0..1020] + "..." if message.length > 1024
 
     if message.empty?
       raise_config_error "Could not process payload"
     end
-
-    message = message.join(', ') if message.is_a?(Array)
 
     post_data = {
       :token => settings[:token],
