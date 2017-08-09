@@ -14,16 +14,15 @@ class PushoverTest < PapertrailServices::TestCase
 
     body = nil
     http_stubs.post '/1/messages.json' do |env|
-      body = JSON(env[:body], symbolize_names: true)
+      body = CGI.parse(env[:body])
       [200, {}, '']
     end
 
     svc.receive_logs
 
     assert_not_nil body
-    assert_equal 5, body[:message].length
-    assert_equal 'cron (alien, lullaby)', body[:title]
-    assert_equal 'https://papertrailapp.com/searches/392', body[:url]
+    assert_equal 'cron (alien, lullaby)', body['title'][0]
+    assert_equal 'https://papertrailapp.com/searches/392', body['url'][0]
   end
 
   def test_no_logs
@@ -31,16 +30,16 @@ class PushoverTest < PapertrailServices::TestCase
 
     body = nil
     http_stubs.post '/1/messages.json' do |env|
-      body = JSON(env[:body], symbolize_names: true)
+      body = CGI.parse(env[:body])
       [200, {}, '']
     end
 
     svc.receive_logs
 
     assert_not_nil body
-    assert_equal '0 matches found in the past minute', body[:message]
-    assert_equal 'cron', body[:title]
-    assert_equal 'https://papertrailapp.com/searches/392', body[:url]
+    assert_equal '0 matches found in the past minute', body['message'][0]
+    assert_equal 'cron', body['title'][0]
+    assert_equal 'https://papertrailapp.com/searches/392', body['url'][0]
   end
 
   def service(*args)

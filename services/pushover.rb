@@ -18,9 +18,9 @@ class Service::Pushover < Service
       :url => payload[:saved_search][:html_search_url],
       :url_title => "View logs on Papertrail"
     }
+    post_data = URI.encode_www_form(post_data)
 
-    http.headers["content-type"] = "application/json"
-    resp = http_post("https://api.pushover.net/1/messages.json", post_data.to_json)
+    resp = http_post("https://api.pushover.net/1/messages.json", post_data)
 
     unless resp.success?
       puts "pushover: #{resp.to_s}"
