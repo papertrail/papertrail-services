@@ -21,6 +21,7 @@ class PushoverTest < PapertrailServices::TestCase
     svc.receive_logs
 
     assert_not_nil body
+    assert_match /Jul 22 14:10:01 alien CROND/, body['message'][0]
     assert_equal 'cron (alien, lullaby)', body['title'][0]
     assert_equal 'https://papertrailapp.com/searches/392', body['url'][0]
   end

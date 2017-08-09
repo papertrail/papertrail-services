@@ -9,6 +9,8 @@ class Service::Pushover < Service
       raise_config_error "Could not process payload"
     end
 
+    message = message.join(', ') if message.is_a?(Array)
+
     post_data = {
       :token => settings[:token],
       :user => settings[:user_key],
