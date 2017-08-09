@@ -43,9 +43,9 @@ class Service::Pushover < Service
       hosts = events.collect { |e| e[:source_name] }.sort.uniq
 
       if hosts.length < 5
-        title = "#{title} (#{hosts.join(', ')})"
+        title += " (#{hosts.join(', ')})"
       else
-        title = "#{title} (from #{hosts.length} hosts)"
+        title += " (from #{hosts.length} hosts)"
       end
 
       message = events.collect { |item|
