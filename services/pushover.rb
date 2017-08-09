@@ -10,7 +10,7 @@ class Service::Pushover < Service
       raise_config_error "Could not process payload"
     end
 
-    post_data = {
+    data = {
       :token => settings[:token],
       :user => settings[:user_key],
       :title => body[:title],
@@ -19,9 +19,9 @@ class Service::Pushover < Service
       :url => payload[:saved_search][:html_search_url],
       :url_title => "View logs on Papertrail"
     }
-    post_data = URI.encode_www_form(post_data)
+    data = URI.encode_www_form(data)
 
-    resp = http_post("https://api.pushover.net/1/messages.json", post_data)
+    resp = http_post("https://api.pushover.net/1/messages.json", data)
 
     unless resp.success?
       puts "pushover: #{resp.to_s}"
