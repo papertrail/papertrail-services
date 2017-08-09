@@ -1,6 +1,8 @@
 # coding: utf-8
 
 class Service::Pushover < Service
+  API_URL = "https://api.pushover.net/1/messages.json"
+
   def post_data(body)
     message = body[:message]
     message = message.join(', ') if message.is_a?(Array)
@@ -21,7 +23,7 @@ class Service::Pushover < Service
     }
     data = URI.encode_www_form(data)
 
-    resp = http_post("https://api.pushover.net/1/messages.json", data)
+    resp = http_post(API_URL, data)
 
     unless resp.success?
       puts "pushover: #{resp.to_s}"
