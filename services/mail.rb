@@ -15,11 +15,10 @@ class Service::Mail < Service
       recipients = settings[:addresses].sub(/^#{SEPARATOR}/, '').split(SEPARATOR)
 
       mail = ::Mail.new
-      mail.from 'Papertrail <support@papertrailapp.com>'
+      mail.from 'Papertrail Alerts <alert@papertrailapp.com>'
       mail.to recipients
       mail['reply-to'] = recipients.join(', ')
       mail['X-Report-Abuse-To'] = 'support@papertrailapp.com'
-      mail['X-Future-From'] = 'alert@papertrailapp.com'
       mail['List-Unsubscribe'] = "<#{payload[:saved_search][:html_edit_url]}>"
       mail.subject %{[Papertrail] "#{payload[:saved_search][:name]}" alert: #{Pluralize.new('match', :count => payload[:events].length)} (at #{alert_time})}
 
@@ -97,13 +96,6 @@ class Service::Mail < Service
             <li><a href="<%= payload[:saved_search][:html_edit_url] %>">Edit or unsubscribe</a></li>
           </ul>
 
-          <div style="color:#444;font-size:12px;line-height:130%;border-top:1px solid #ddd;margin-top:35px;">
-            <p>
-              <strong>Upcoming change</strong>
-              <br />
-              Beginning September 12, this email will come from alert@papertrailapp.com. <a href="http://www.papertrailstatus.com/incidents/7xfb65y1tkk5">Read more »</a>
-            </p>
-          </div>
             <div style="color:#444;font-size:12px;line-height:130%;border-top:1px solid #ddd;margin-top:35px;">
               <p>
                 <strong>Can we help?</strong>
@@ -136,9 +128,6 @@ class Service::Mail < Service
 
       Edit or unsubscribe: <%= payload[:saved_search][:html_edit_url] %>
 
-      --
-      Beginning September 12, this email will come from alert@papertrailapp.com. For more,
-      see http://www.papertrailstatus.com/incidents/7xfb65y1tkk5.
 
       --
       Can we help?
