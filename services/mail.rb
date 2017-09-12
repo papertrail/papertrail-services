@@ -98,7 +98,7 @@ class Service::Mail < Service
 
           <div style="color:#444;font-size:12px;line-height:130%;border-top:1px solid #ddd;margin-top:35px;">
             <p>
-              <strong>Recent change</strong>
+              <strong>Recent change: new email address</strong>
               <br />
               Alert emails now come from alert@papertrailapp.com. <a href="http://www.papertrailstatus.com/incidents/7xfb65y1tkk5">Read more »</a>
             </p>
