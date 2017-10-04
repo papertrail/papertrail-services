@@ -128,7 +128,7 @@ DEPENDENCIES
   sentry-raven
   sinatra
   tinder (~> 1.4)
-  tzinfo (~> 0.3)
+  tzinfo (~> 0.3.53)
   unicorn
   yajl-ruby
 
