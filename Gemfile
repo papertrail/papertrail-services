@@ -6,7 +6,7 @@ gem 'sinatra'
 gem 'activesupport', '~> 3.0', :require => 'active_support'
 gem 'yajl-ruby', :require => [ 'yajl', 'yajl/json_gem' ]
 gem 'faraday'
-gem 'tzinfo', '~> 0.3'
+gem 'tzinfo', '~> 0.3.53'
 gem 'net-http-persistent'
 
 gem 'scrolls'
