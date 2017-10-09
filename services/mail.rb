@@ -96,13 +96,6 @@ class Service::Mail < Service
             <li><a href="<%= payload[:saved_search][:html_edit_url] %>">Edit or unsubscribe</a></li>
           </ul>
 
-          <div style="color:#444;font-size:12px;line-height:130%;border-top:1px solid #ddd;margin-top:35px;">
-            <p>
-              <strong>Recent change: new email address</strong>
-              <br />
-              Alert emails now come from alert@papertrailapp.com. <a href="http://www.papertrailstatus.com/incidents/7xfb65y1tkk5">Read more »</a>
-            </p>
-          </div>
             <div style="color:#444;font-size:12px;line-height:130%;border-top:1px solid #ddd;margin-top:35px;">
               <p>
                 <strong>Can we help?</strong>
@@ -134,10 +127,6 @@ class Service::Mail < Service
          Search: <%= payload[:saved_search][:html_search_url] %>
 
       Edit or unsubscribe: <%= payload[:saved_search][:html_edit_url] %>
-
-      --
-      Alert emails now come from alert@papertrailapp.com. For more,
-      see http://www.papertrailstatus.com/incidents/7xfb65y1tkk5.
 
       --
       Can we help?
