@@ -1,4 +1,3 @@
-# encoding: utf-8
 require 'appoptics/metrics'
 
 class Service::AppOptics < Service  

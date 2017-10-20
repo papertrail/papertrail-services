@@ -1,5 +1,4 @@
 require File.expand_path('../helper', __FILE__)
-require 'appoptics/metrics'
 
 class AppOpticsTest < PapertrailServices::TestCase
   def test_removes_spaces_from_metric_name
@@ -79,7 +78,6 @@ class AppOpticsTest < PapertrailServices::TestCase
       service(:logs, service_settings, counts_payload).submit_metrics(metrics)
     end
   end
-
 
   def service(*args)
     super Service::AppOptics, *args
