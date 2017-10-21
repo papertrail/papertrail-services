@@ -6,14 +6,14 @@ class AppOpticsTest < PapertrailServices::TestCase
     assert_equal 'very_wordy_metric', service.metric_name
   end
 
-  def test_handles_nil_ao_token
+  def test_handles_nil_appoptics_token
     service = service(:logs, {}, payload)
-    assert_equal '', service.ao_token
+    assert_equal '', service.appoptics_token
   end
 
-  def test_cleans_whitespace_from_ao_token
+  def test_cleans_whitespace_from_appoptics_token
     service = service(:logs, { :token  => ' towel  ' }, payload)
-    assert_equal 'towel', service.ao_token
+    assert_equal 'towel', service.appoptics_token
   end
 
   def test_submits_logs_metrics

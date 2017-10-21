@@ -1,4 +1,4 @@
-require 'appoptics/metrics'
+# encoding: utf-8
 
 class Service::AppOptics < Service  
   def receive_logs
@@ -42,12 +42,12 @@ class Service::AppOptics < Service
     settings[:name].gsub(/ +/, '_')
   end
 
-  def ao_token
+  def appoptics_token
     settings[:token].to_s.strip
   end
 
   def submit_metrics(metrics)
-    queue = enqueue_metrics(metrics, metric_name, ao_token)
+    queue = enqueue_metrics(metrics, metric_name, appoptics_token)
     return if queue.empty?
     queue.submit
   rescue AppOptics::Metrics::ClientError => e
@@ -57,7 +57,7 @@ class Service::AppOptics < Service
     end
   rescue AppOptics::Metrics::CredentialsMissing, AppOptics::Metrics::Unauthorized
     raise Service::ConfigurationError,
-      "Error sending to AppOptics: Invalid token"
+      "Error sending to AppOptics: Missing or invalid token"
   rescue AppOptics::Metrics::MetricsError => e
     raise Service::ConfigurationError,
       "Error sending to AppOptics: #{e.message}"
