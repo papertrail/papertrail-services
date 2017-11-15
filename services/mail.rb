@@ -55,7 +55,7 @@ class Service::Mail < Service
       recipients = ::Mail::AddressList.new(addresses.gsub(/[,;]/,' ').split(/ +/).join(","))
     end
     recipient_list = []
-    recipients.addresses.each { |address| recipient_list << address.to_s }
+    recipients.addresses.each { |address| recipient_list << address.to_s if address.to_s =~ /@/ }
     recipient_list
   end
 
