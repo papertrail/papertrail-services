@@ -2,7 +2,6 @@
 require 'erb'
 
 class Service::Mail < Service
-  SEPARATOR = /[,;\s]+/
 
   def receive_logs
     raise_config_error "No email addresses specified" if settings[:addresses].to_s.empty?
@@ -12,12 +11,14 @@ class Service::Mail < Service
 
   def mail_message
     @mail_message ||= begin
-      recipients = settings[:addresses].sub(/^#{SEPARATOR}/, '').split(SEPARATOR)
+      recipients = ::Mail::AddressList.new(settings[:addresses])
+      recipient_list = []
+      recipients.addresses.each { |address| recipient_list << address.to_s }
 
       mail = ::Mail.new
       mail.from 'Papertrail Alerts <alert@papertrailapp.com>'
-      mail.to recipients
-      mail['reply-to'] = recipients.join(', ')
+      mail.to recipient_list
+      mail['reply-to'] = recipient_list.join(", ")
       mail['X-Report-Abuse-To'] = 'support@papertrailapp.com'
       mail['List-Unsubscribe'] = "<#{payload[:saved_search][:html_edit_url]}>"
       mail.subject %{[Papertrail] "#{payload[:saved_search][:name]}" alert: #{Pluralize.new('match', :count => payload[:events].length)} (at #{alert_time})}
