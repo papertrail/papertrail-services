@@ -34,11 +34,11 @@ class MailTest < PapertrailServices::TestCase
   end
 
   def test_mail_message_multiple_recipients
-    svc = service(:logs, { :addresses => 'eric@papertrail.com,troy@papertrail.com;larry@papertrail.com' }, payload)
+    svc = service(:logs, { :addresses => 'eric@papertrail.com,troy@papertrail.com;larry@papertrail.com ryan@papertrail.com' }, payload)
 
     message = svc.mail_message
 
-    expected = %w(eric@papertrail.com troy@papertrail.com larry@papertrail.com)
+    expected = %w(eric@papertrail.com troy@papertrail.com larry@papertrail.com ryan@papertrail.com)
     assert_equal expected, message.to
   end
 
@@ -46,7 +46,6 @@ class MailTest < PapertrailServices::TestCase
     svc = service(:logs, { :addresses => 'Eric <eric@papertrail.com>,troy@papertrail.com;larry@papertrail.com' }, payload)
 
     message = svc.mail_message
-    puts message.to
 
     expected = %w(eric@papertrail.com troy@papertrail.com larry@papertrail.com)
     assert_equal expected, message.to

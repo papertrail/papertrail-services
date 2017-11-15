@@ -2,19 +2,14 @@
 require 'erb'
 
 class Service::Mail < Service
-
   def receive_logs
-    raise_config_error "No email addresses specified" if settings[:addresses].to_s.empty?
+    raise_config_error "No email addresses specified" if addresses.to_s.empty?
 
     mail_message.deliver
   end
 
   def mail_message
     @mail_message ||= begin
-      recipients = ::Mail::AddressList.new(settings[:addresses])
-      recipient_list = []
-      recipients.addresses.each { |address| recipient_list << address.to_s }
-
       mail = ::Mail.new
       mail.from 'Papertrail Alerts <alert@papertrailapp.com>'
       mail.to recipient_list
@@ -47,6 +42,21 @@ class Service::Mail < Service
 
   def event_count
     payload[:events].length
+  end
+
+  def addresses
+    settings[:addresses]
+  end
+
+  def recipient_list
+    begin
+      recipients = ::Mail::AddressList.new(addresses)
+    rescue ::Mail::Field::ParseError
+      recipients = ::Mail::AddressList.new(addresses.gsub(/[,;]/,' ').split(/ +/).join(","))
+    end
+    recipient_list = []
+    recipients.addresses.each { |address| recipient_list << address.to_s }
+    recipient_list
   end
 
   def html_email
