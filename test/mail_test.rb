@@ -42,6 +42,16 @@ class MailTest < PapertrailServices::TestCase
     assert_equal expected, message.to
   end
 
+  def test_mail_message_fancy_recipients
+    svc = service(:logs, { :addresses => 'Eric <eric@papertrail.com>,troy@papertrail.com;larry@papertrail.com' }, payload)
+
+    message = svc.mail_message
+    puts message.to
+
+    expected = %w(eric@papertrail.com troy@papertrail.com larry@papertrail.com)
+    assert_equal expected, message.to
+  end
+
   def test_html
     svc = service(:logs, { }, payload)
 
