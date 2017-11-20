@@ -44,19 +44,19 @@ class Service::Mail < Service
     payload[:events].length
   end
 
-  def addresses
-    settings[:addresses]
+  def recipient_list
+    recipients = recipient_addresses
+    recipients.addresses.map(&:to_s).select { |address| address.include?('@') }
   end
 
-  def recipient_list
-    begin
-      recipients = ::Mail::AddressList.new(addresses)
-    rescue ::Mail::Field::ParseError
-      recipients = ::Mail::AddressList.new(addresses.gsub(/[,;]/,' ').split(/ +/).join(","))
-    end
-    recipient_list = []
-    recipients.addresses.each { |address| recipient_list << address.to_s if address.to_s =~ /@/ }
-    recipient_list
+  def recipient_addresses
+    ::Mail::AddressList.new(addresses)
+  rescue ::Mail::Field::ParseError
+    ::Mail::AddressList.new(addresses.tr(',;', ' ').split(' ').join(","))
+  end
+
+  def addresses
+    settings[:addresses]
   end
 
   def html_email
