@@ -1,4 +1,8 @@
 # encoding: utf-8
+require 'appoptics/metrics/processor'
+require 'appoptics/metrics/queue'
+require 'appoptics/metrics/client'
+require 'appoptics/metrics/errors'
 
 class Service::AppOptics < Service  
   def receive_logs
@@ -50,15 +54,15 @@ class Service::AppOptics < Service
     queue = enqueue_metrics(metrics, metric_name, appoptics_token)
     return if queue.empty?
     queue.submit
-  rescue AppOptics::Metrics::ClientError => e
+  rescue ::AppOptics::Metrics::ClientError => e
     if e.message !~ /is too far in the past/
       raise Service::ConfigurationError,
         "Error sending to AppOptics: #{e.message}"
     end
-  rescue AppOptics::Metrics::CredentialsMissing, AppOptics::Metrics::Unauthorized
+  rescue ::AppOptics::Metrics::CredentialsMissing, ::AppOptics::Metrics::Unauthorized
     raise Service::ConfigurationError,
       "Error sending to AppOptics: Missing or invalid token"
-  rescue AppOptics::Metrics::MetricsError => e
+  rescue ::AppOptics::Metrics::MetricsError => e
     raise Service::ConfigurationError,
       "Error sending to AppOptics: #{e.message}"
   end
@@ -83,7 +87,7 @@ class Service::AppOptics < Service
   end
 
   def create_queue(token)
-    client = AppOptics::Metrics::Client.new
+    client = ::AppOptics::Metrics::Client.new
     client.authenticate(token)
     client.agent_identifier("Papertrail-Services/1.0")
     client.new_queue
