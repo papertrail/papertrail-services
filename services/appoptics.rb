@@ -1,17 +1,4 @@
 # encoding: utf-8
-require 'appoptics/metrics/processor'
-require 'appoptics/metrics/aggregator'
-require 'appoptics/metrics/annotator'
-require 'appoptics/metrics/client'
-require 'appoptics/metrics/collection'
-require 'appoptics/metrics/connection'
-require 'appoptics/metrics/errors'
-require 'appoptics/metrics/persistence'
-require 'appoptics/metrics/queue'
-require 'appoptics/metrics/smart_json'
-require 'appoptics/metrics/util'
-require 'appoptics/metrics/version'
-
 
 class Service::AppOptics < Service  
   def receive_logs
