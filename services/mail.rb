@@ -45,8 +45,7 @@ class Service::Mail < Service
   end
 
   def recipient_list
-    recipients = recipient_addresses.select do |address|
-      address.include?('@')
+    recipients = recipient_addresses.select { |address| address.include?('@') }
     unless recipients.present?
       raise_config_error "No valid addresses found"
     end
@@ -57,7 +56,6 @@ class Service::Mail < Service
     ::Mail::AddressList.new(settings[:addresses]).addresses.map(&:address)
   rescue ::Mail::Field::ParseError
     settings[:addresses].tr(',;<>', ' ').split(' ')
-    end
   end
 
   def addresses
