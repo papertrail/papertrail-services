@@ -90,7 +90,7 @@ Contributing
 
 Once you've made your great commits:
 
-1. [Fork][fk] `papertrail_services`
+1. [Fork][fk] `papertrail-services`
 2. Create a topic branch — `git checkout -b my_branch`
 3. Commit the changes without changing the Rakefile or other files unrelated to your enhancement.
 4. Push to your branch — `git push origin my_branch`
@@ -114,6 +114,6 @@ We thank them for everything they've done for all of us.
 [github-services]: https://github.com/github/github-services/
 [sinatra]: http://www.sinatrarb.com/
 [fk]: https://help.github.com/articles/fork-a-repo
-[is]: https://github.com/papertrail/papertrail_services/issues/
+[is]: https://github.com/papertrail/papertrail-services/issues/
 [Papertrail]: http://papertrailapp.com/
 [webhooks documentation]: http://help.papertrailapp.com/kb/how-it-works/web-hooks
