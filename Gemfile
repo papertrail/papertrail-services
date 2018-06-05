@@ -19,7 +19,7 @@ gem 'hoptoad_notifier'
 gem "sentry-raven"
 
 # service: mail
-gem 'mail', '~> 2.5.5'
+gem 'mail', '~> 2.6.6'
 
 # service :campfire
 gem 'tinder', '~> 1.4'

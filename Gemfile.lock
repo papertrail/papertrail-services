@@ -45,9 +45,8 @@ GEM
       aggregate (~> 0.2.2)
       faraday (~> 0.7)
       multi_json
-    mail (2.5.5)
-      mime-types (~> 1.16)
-      treetop (~> 1.4.8)
+    mail (2.6.6)
+      mime-types (>= 1.16, < 4)
     metaclass (0.0.1)
     metriks (0.9.9.6)
       atomic (~> 1.0)
@@ -67,7 +66,6 @@ GEM
     nokogiri (1.6.2.1)
       mini_portile (= 0.6.0)
     pg (0.14.1)
-    polyglot (0.3.5)
     puma (1.6.3)
       rack (~> 1.2)
     rack (1.5.2)
@@ -97,9 +95,6 @@ GEM
       multi_json (~> 1.0)
       multipart-post (~> 1.1)
       twitter-stream (~> 0.1)
-    treetop (1.4.15)
-      polyglot
-      polyglot (>= 0.3.1)
     twitter-stream (0.1.16)
       eventmachine (>= 0.12.8)
       http_parser.rb (~> 0.5.1)
@@ -124,7 +119,7 @@ DEPENDENCIES
   hipchat-api
   hoptoad_notifier
   librato-metrics (~> 1.0.1)
-  mail (~> 2.5.5)
+  mail (~> 2.6.6)
   metriks
   metriks-librato_metrics
   mocha
@@ -145,4 +140,4 @@ RUBY VERSION
    ruby 1.9.3p551
 
 BUNDLED WITH
-   1.14.6
+   1.16.2
