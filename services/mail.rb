@@ -16,6 +16,7 @@ class Service::Mail < Service
       mail['reply-to'] = recipient_list.join(", ")
       mail['X-Report-Abuse-To'] = 'support@papertrailapp.com'
       mail['List-Unsubscribe'] = "<#{payload[:saved_search][:html_edit_url]}>"
+      mail['Auto-Submitted'] = 'auto-generated'
       mail.subject %{[Papertrail] "#{payload[:saved_search][:name]}" alert: #{Pluralize.new('match', :count => payload[:events].length)} (at #{alert_time})}
 
       text = text_email
