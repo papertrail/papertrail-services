@@ -70,7 +70,7 @@ module PapertrailServices
             :addresses => settings[:addresses] }, e)
 
           status 400
-        rescue TimeoutError, ::PapertrailServices::Service::TimeoutError
+        rescue TimeoutError, ::PapertrailServices::Service::TimeoutError => e
           Metriks.meter("papertrail_services.#{svc.hook_name}.error").mark
           Metriks.meter("papertrail_services.#{svc.hook_name}.error.timeout").mark
 
