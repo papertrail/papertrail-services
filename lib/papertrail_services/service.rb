@@ -18,6 +18,14 @@ module PapertrailServices
         Time.zone = nil
       end
 
+      # TODO log payload for requests
+      #
+      # We'll want to test sawlert in noop mode to determine if the payloads
+      # are accurate compared with what we're sending from the rails app.
+      if payload[:noop_mode]
+        return true
+      end
+
       event_method = "receive_#{event}".to_sym
       if svc.respond_to?(event_method)
         Timeout.timeout(TIMEOUT, TimeoutError) do
