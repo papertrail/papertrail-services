@@ -86,6 +86,8 @@ module PapertrailServices
         ensure
           Scrolls::Log.context = {}
         end
+
+        $stdout.puts "count#heroku.pt-services-notify.count=1 tag#status=#{response.status} tag#integration=#{svc.hook_name} tag#presenter=#{params['event']}"
       end
 
       get '/' do
