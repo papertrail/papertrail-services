@@ -1,10 +1,8 @@
-ruby "1.9.3"
-
 source 'https://rubygems.org'
 
 gem 'sinatra'
 gem 'activesupport', '~> 3.0', :require => 'active_support'
-gem 'yajl-ruby', :require => [ 'yajl', 'yajl/json_gem' ]
+gem 'yajl-ruby', '~> 1.4.1', :require => [ 'yajl', 'yajl/json_gem' ]
 gem 'faraday'
 gem 'tzinfo', '~> 0.3.53'
 gem 'net-http-persistent'
@@ -16,6 +14,9 @@ gem 'metriks-librato_metrics'
 gem 'newrelic_rpm'
 
 gem "sentry-raven"
+
+gem 'json', '~> 1.8'
+gem 'eventmachine', '~> 1.2'
 
 # service: mail
 gem 'mail', '~> 2.6.6'
@@ -34,7 +35,7 @@ gem 'appoptics-api-ruby', :git => 'https://github.com/appoptics/appoptics-api-ru
   :ref => '23fe88a', :require => "appoptics/metrics"
 
 # service :aws-sns
-gem 'aws-sdk', '~> 1.43.3'
+gem 'aws-sdk', '~> 1.6'
 
 group :development do
   gem 'foreman'
@@ -45,10 +46,10 @@ group :building do
 end
 
 group :production do
-  gem 'pg'
+  # gem 'pg'
 
   # Use unicorn as the web server
-  gem 'unicorn'
+  gem 'unicorn', '~> 5.5'
 
   gem 'puma'
 end
