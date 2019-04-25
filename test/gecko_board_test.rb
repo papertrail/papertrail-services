@@ -18,7 +18,7 @@ class GeckoBoardTest < PapertrailServices::TestCase
       [400, {}, '{ "error":"Bad juju" }']
     end
 
-    assert_raise Service::ConfigurationError do
+    assert_raises Service::ConfigurationError do
       svc.receive_logs
     end
 
@@ -26,7 +26,7 @@ class GeckoBoardTest < PapertrailServices::TestCase
       [500, {}, 'Internal Server Error']
     end
 
-    assert_raise Service::ConfigurationError do
+    assert_raises Service::ConfigurationError do
       svc.receive_logs
     end
   end

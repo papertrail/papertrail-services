@@ -18,7 +18,7 @@ class MailTest < PapertrailServices::TestCase
 
     message = svc.mail_message
 
-    assert_not_nil message
+    assert message.present?
   end
 
   def test_html_syslog_format
@@ -56,7 +56,7 @@ class MailTest < PapertrailServices::TestCase
 
     html = svc.html_email
 
-    assert_not_nil html
+    assert html.present?
   end
 
   def test_text
@@ -64,7 +64,7 @@ class MailTest < PapertrailServices::TestCase
 
     text = svc.text_email
 
-    assert_not_nil text
+    assert text.present?
   end
 
   def service(*args)

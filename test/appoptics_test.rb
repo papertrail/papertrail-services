@@ -64,7 +64,7 @@ class AppOpticsTest < PapertrailServices::TestCase
       .raises(AppOptics::Metrics::Unauthorized.new('unauthorized'))
 
     metrics = { 'alien' => { Time.now.to_i => 2 }}
-    assert_raise Service::ConfigurationError do
+    assert_raises Service::ConfigurationError do
       service(:logs, service_settings, counts_payload).submit_metrics(metrics)
     end
   end
@@ -74,7 +74,7 @@ class AppOpticsTest < PapertrailServices::TestCase
       .raises(AppOptics::Metrics::MetricsError)
 
     metrics = { 'alien' => { Time.now.to_i => 2 }}
-    assert_raise Service::ConfigurationError do
+    assert_raises Service::ConfigurationError do
       service(:logs, service_settings, counts_payload).submit_metrics(metrics)
     end
   end
