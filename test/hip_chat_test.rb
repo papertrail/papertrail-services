@@ -1,5 +1,5 @@
 # encoding: utf-8
-require File.expand_path('../helper', __FILE__)
+require File.expand_path('../helper.rb', __FILE__)
 
 class HipChatTest < PapertrailServices::TestCase
   include PapertrailServices::Helpers::LogsHelpers

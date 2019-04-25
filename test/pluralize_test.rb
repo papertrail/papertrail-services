@@ -1,4 +1,4 @@
-require File.expand_path('../helper', __FILE__)
+require File.expand_path('../helper.rb', __FILE__)
 
 class PluralizeTest < PapertrailServices::TestCase
   def test_pluralize_multiple_items

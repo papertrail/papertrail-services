@@ -1,4 +1,4 @@
-require File.expand_path('../helper', __FILE__)
+require File.expand_path('../helper.rb', __FILE__)
 
 class AppOpticsTest < PapertrailServices::TestCase
   def test_removes_spaces_from_metric_name
