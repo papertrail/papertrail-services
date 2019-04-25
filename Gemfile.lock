@@ -52,6 +52,7 @@ GEM
       metriks (>= 0.9.9.6)
     mime-types (1.19)
     mini_portile (0.6.0)
+    minitest (5.11.3)
     mocha (0.13.1)
       metaclass (~> 0.0.1)
     multi_json (1.7.9)
@@ -117,6 +118,7 @@ DEPENDENCIES
   mail (~> 2.6.6)
   metriks
   metriks-librato_metrics
+  minitest
   mocha
   net-http-persistent
   newrelic_rpm

@@ -55,5 +55,6 @@ group :production do
 end
 
 group :test do
+  gem 'minitest'
   gem 'mocha', :require => false
 end
