@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'sinatra', '~> 1.4.7'
+gem 'unicorn', '~> 5.5'
 gem 'activesupport', '~> 5.2.3', :require => 'active_support'
 gem 'yajl-ruby', '~> 1.4.1', :require => [ 'yajl', 'yajl/json_gem' ]
 gem 'net-http-persistent'
@@ -40,13 +41,6 @@ end
 
 group :building do
   gem 'rake'
-end
-
-group :production do
-  # Use unicorn as the web server
-  gem 'unicorn', '~> 5.5'
-
-  gem 'puma'
 end
 
 group :test do
