@@ -46,8 +46,6 @@ group :building do
 end
 
 group :production do
-  # gem 'pg'
-
   # Use unicorn as the web server
   gem 'unicorn', '~> 5.5'
 
@@ -55,6 +53,7 @@ group :production do
 end
 
 group :test do
+  gem 'rack-test'
   gem 'minitest'
   gem 'mocha', :require => false
 end
