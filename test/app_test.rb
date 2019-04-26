@@ -1,6 +1,6 @@
 require File.expand_path('../helper.rb', __FILE__)
 
-class AppTest < MiniTest::Unit::TestCase
+class AppTest < Minitest::Test
 
   include Rack::Test::Methods
 
@@ -10,6 +10,7 @@ class AppTest < MiniTest::Unit::TestCase
 
   def test_post_event
     Service::AppOptics.any_instance.expects(:receive_logs)
+    $stdout.expects(:puts) # keep test output clean
     post '/appoptics/logs', {settings: '', payload: '{"message":"ohno"}'}
     assert last_response.ok?
     assert_equal '', last_response.body
