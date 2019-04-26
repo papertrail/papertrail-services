@@ -1,15 +1,12 @@
 source 'https://rubygems.org'
 
-gem 'sinatra'
-gem 'activesupport', '~> 3.0', :require => 'active_support'
+gem 'sinatra', '~> 1.4.7'
+gem 'activesupport', '~> 5.2.3', :require => 'active_support'
 gem 'yajl-ruby', '~> 1.4.1', :require => [ 'yajl', 'yajl/json_gem' ]
-gem 'faraday'
-gem 'tzinfo', '~> 0.3.53'
 gem 'net-http-persistent'
 
 gem 'scrolls'
 
-gem 'metriks'
 gem 'metriks-librato_metrics'
 gem 'newrelic_rpm'
 
@@ -54,6 +51,5 @@ end
 
 group :test do
   gem 'rack-test'
-  gem 'minitest'
-  gem 'mocha', :require => false
+  gem 'mocha', '~> 1.8', :require => false
 end
