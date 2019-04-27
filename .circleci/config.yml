@@ -1,0 +1,32 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/papertrail-services
+    docker:
+      - image: circleci/ruby:2.6.3
+        environment:
+          TESTOPTS: "--ci-dir=/tmp/test-results"
+          APP_ENV: test
+    steps:
+      - checkout
+
+      # Restore bundle cache
+      - type: cache-restore
+        key: papertrail-services-{{ checksum "Gemfile.lock" }}
+
+      # Bundle install dependencies
+      - run: bundle install --path vendor/bundle
+
+      # Store bundle cache
+      - type: cache-save
+        key: papertrail-services-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
+
+      # Run minitest
+      - type: shell
+        command: bundle exec rake
+
+      # Save artifacts
+      - type: store_test_results
+        path: /tmp/test-results
