@@ -24,6 +24,7 @@ jobs:
           - vendor/bundle
 
       # Run minitest
+      - run: mkdir -p /tmp/test-results
       - type: shell
         command: bundle exec rake
 
