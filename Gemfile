@@ -46,4 +46,5 @@ end
 group :test do
   gem 'rack-test'
   gem 'mocha', '~> 1.8', :require => false
+  gem 'minitest-ci'
 end
