@@ -1,4 +1,4 @@
-Papertrail Services [![Build Status](https://travis-ci.org/papertrail/papertrail-services.svg?branch=master)](https://travis-ci.org/papertrail/papertrail-services)
+Papertrail Services [![Build Status](https://circleci.com/gh/papertrail/papertrail-services.svg?style=svg)](https://circleci.com/gh/papertrail/papertrail-services)
 ===================
 
 Service hooks for [Papertrail][].
