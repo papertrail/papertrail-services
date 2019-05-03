@@ -1,22 +1,21 @@
-ruby "1.9.3"
-
 source 'https://rubygems.org'
+ruby "2.6.3"
 
-gem 'sinatra'
-gem 'activesupport', '~> 3.0', :require => 'active_support'
-gem 'yajl-ruby', :require => [ 'yajl', 'yajl/json_gem' ]
-gem 'faraday'
-gem 'tzinfo', '~> 0.3.53'
+gem 'sinatra', '~> 1.4.7'
+gem 'unicorn', '~> 5.5'
+gem 'activesupport', '~> 5.2.3', :require => 'active_support'
+gem 'yajl-ruby', '~> 1.4.1', :require => [ 'yajl', 'yajl/json_gem' ]
 gem 'net-http-persistent'
 
 gem 'scrolls'
 
-gem 'metriks'
 gem 'metriks-librato_metrics'
 gem 'newrelic_rpm'
 
-gem 'hoptoad_notifier'
 gem "sentry-raven"
+
+gem 'json', '~> 1.8'
+gem 'eventmachine', '~> 1.2'
 
 # service: mail
 gem 'mail', '~> 2.6.6'
@@ -35,7 +34,7 @@ gem 'appoptics-api-ruby', :git => 'https://github.com/appoptics/appoptics-api-ru
   :ref => '23fe88a', :require => "appoptics/metrics"
 
 # service :aws-sns
-gem 'aws-sdk', '~> 1.43.3'
+gem 'aws-sdk', '~> 1.6'
 
 group :development do
   gem 'foreman'
@@ -45,15 +44,8 @@ group :building do
   gem 'rake'
 end
 
-group :production do
-  gem 'pg'
-
-  # Use unicorn as the web server
-  gem 'unicorn'
-
-  gem 'puma'
-end
-
 group :test do
-  gem 'mocha', :require => false
+  gem 'rack-test'
+  gem 'mocha', '~> 1.8', :require => false
+  gem 'minitest-ci'
 end

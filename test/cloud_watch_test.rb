@@ -1,4 +1,4 @@
-require File.expand_path('../helper', __FILE__)
+require File.expand_path('../helper.rb', __FILE__)
 require 'aws-sdk'
 
 class CloudWatchTest < PapertrailServices::TestCase

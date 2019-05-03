@@ -8,12 +8,6 @@ Time.zone_default = ActiveSupport::TimeZone['Pacific Time (US & Canada)']
 module PapertrailServices
   class App < Sinatra::Base
     configure do
-      if ENV['HOPTOAD_API_KEY'].present?
-        HoptoadNotifier.configure do |config|
-          config.api_key = ENV['HOPTOAD_API_KEY']
-        end
-      end
-
       if ENV['SENTRY_DSN'].present?
         Raven.configure do |config|
           config.dsn = ENV['SENTRY_DSN']
@@ -105,13 +99,6 @@ module PapertrailServices
       def report_exception(e, additional_attributes = {})
         $stderr.puts "#{request.path_info}: Error: #{e.class}: #{e.message}"
         $stderr.puts "\t#{e.backtrace.join("\n\t")}"
-
-        if ENV['HOPTOAD_API_KEY'].present?
-          begin
-            HoptoadNotifier.notify(e, :parameters => additional_attributes)
-          rescue
-          end
-        end
 
         if ENV['SENTRY_DSN'].present?
           begin

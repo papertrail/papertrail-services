@@ -26,7 +26,7 @@ $LOAD_PATH << File.expand_path('../../lib', __FILE__)
 require 'papertrail_services'
 require 'pluralize'
 
-if File.exists?(local_env = File.expand_path('../local.env', __FILE__))
+if File.exist?(local_env = File.expand_path('../local.env', __FILE__))
   IO.foreach(local_env) do |line|
     if line =~ /^([^=]+)=(.+)$/
       ENV[$1.strip] = $2.strip

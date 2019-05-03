@@ -1,4 +1,4 @@
-require File.expand_path('../helper', __FILE__)
+require File.expand_path('../helper.rb', __FILE__)
 
 class PagerdutyTest < PapertrailServices::TestCase
   def test_size_limit
@@ -13,7 +13,7 @@ class PagerdutyTest < PapertrailServices::TestCase
     end
     svc.receive_logs
 
-    assert_not_nil body
+    assert body.present?
     assert(body.to_json.length > 600)
     limited_body = svc.json_limited(body, 600, body[:details][:messages])
     assert(limited_body.length <= 600)
@@ -30,7 +30,7 @@ class PagerdutyTest < PapertrailServices::TestCase
 
     svc.receive_logs
 
-    assert_not_nil body
+    assert body.present?
     assert_equal 5, body[:details][:messages].length
     assert_equal 'https://papertrailapp.com/searches/392?centered_on_id=31171139124469760', body[:details][:log_start_url]
     assert_equal 'https://papertrailapp.com/searches/392?centered_on_id=31181206313902080', body[:details][:log_end_url]
@@ -47,7 +47,7 @@ class PagerdutyTest < PapertrailServices::TestCase
 
     svc.receive_logs
 
-    assert_not_nil body
+    assert body.present?
     assert_equal 'PagerDuty test found 0 matches in the past minute', body[:description]
     assert_equal 'https://papertrailapp.com/searches/392', body[:details][:search_url]
   end
@@ -63,7 +63,7 @@ class PagerdutyTest < PapertrailServices::TestCase
 
     svc.receive_logs
 
-    assert_not_nil body
+    assert body.present?
     assert_equal 'lullaby/PAPERTRAIL', body[:incident_key]
   end
 

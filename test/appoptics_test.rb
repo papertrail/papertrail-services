@@ -1,4 +1,4 @@
-require File.expand_path('../helper', __FILE__)
+require File.expand_path('../helper.rb', __FILE__)
 
 class AppOpticsTest < PapertrailServices::TestCase
   def test_removes_spaces_from_metric_name
@@ -64,7 +64,7 @@ class AppOpticsTest < PapertrailServices::TestCase
       .raises(AppOptics::Metrics::Unauthorized.new('unauthorized'))
 
     metrics = { 'alien' => { Time.now.to_i => 2 }}
-    assert_raise Service::ConfigurationError do
+    assert_raises Service::ConfigurationError do
       service(:logs, service_settings, counts_payload).submit_metrics(metrics)
     end
   end
@@ -74,7 +74,7 @@ class AppOpticsTest < PapertrailServices::TestCase
       .raises(AppOptics::Metrics::MetricsError)
 
     metrics = { 'alien' => { Time.now.to_i => 2 }}
-    assert_raise Service::ConfigurationError do
+    assert_raises Service::ConfigurationError do
       service(:logs, service_settings, counts_payload).submit_metrics(metrics)
     end
   end

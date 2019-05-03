@@ -1,9 +1,10 @@
-require 'test/unit'
-require File.expand_path('../../config/bootstrap', __FILE__)
+require 'minitest/autorun'
+require File.expand_path('../../config/bootstrap.rb', __FILE__)
 
 require 'mocha/setup'
+require 'rack/test'
 
-class PapertrailServices::TestCase < Test::Unit::TestCase
+class PapertrailServices::TestCase < Minitest::Test
   def test_default
   end
 
