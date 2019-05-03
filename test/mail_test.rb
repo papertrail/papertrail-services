@@ -18,7 +18,7 @@ class MailTest < PapertrailServices::TestCase
 
     message = svc.mail_message
 
-    assert message.present?
+    refute_nil message
   end
 
   def test_html_syslog_format
