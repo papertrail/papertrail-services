@@ -74,7 +74,7 @@ GEM
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     raindrops (0.19.0)
-    rake (10.0.3)
+    rake (12.3.3)
     scrolls (0.3.8)
     sentry-raven (0.6.0)
       faraday (>= 0.7.6)
