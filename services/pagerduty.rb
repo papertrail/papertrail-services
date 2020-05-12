@@ -4,7 +4,7 @@
 #  https://github.com/librato/papertrail_pagerduty_webhook
 class Service::Pagerduty < Service
   def post_data(body)
-    size_limit = 3.megabytes # PagerDuty specified 3mb as of Aug 2016
+    size_limit = 512.kilobytes
 
     body[:service_key] = settings[:service_key].to_s.strip
     body[:event_type] = 'trigger'
