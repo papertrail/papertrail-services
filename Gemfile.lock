@@ -55,7 +55,7 @@ GEM
     metriks-librato_metrics (1.0.5)
       metriks (>= 0.9.9.6)
     mime-types (1.19)
-    mini_portile (0.6.0)
+    mini_portile2 (2.4.0)
     minitest (5.11.3)
     minitest-ci (3.4.0)
       minitest (>= 5.0.6)
@@ -66,15 +66,15 @@ GEM
     multipart-post (1.2.0)
     net-http-persistent (2.9.4)
     newrelic_rpm (3.17.2.327)
-    nokogiri (1.6.2.1)
-      mini_portile (= 0.6.0)
-    rack (1.6.11)
+    nokogiri (1.10.9)
+      mini_portile2 (~> 2.4.0)
+    rack (1.6.13)
     rack-protection (1.5.5)
       rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     raindrops (0.19.0)
-    rake (10.0.3)
+    rake (12.3.3)
     scrolls (0.3.8)
     sentry-raven (0.6.0)
       faraday (>= 0.7.6)
@@ -128,14 +128,19 @@ DEPENDENCIES
   mocha (~> 1.8)
   net-http-persistent
   newrelic_rpm
+  nokogiri (= 1.10.9)
+  rack (= 1.6.13)
   rack-test
-  rake
+  rake (= 12.3.3)
   scrolls
   sentry-raven
   sinatra (~> 1.4.7)
   tinder (~> 1.4)
   unicorn (~> 5.5)
   yajl-ruby (~> 1.4.1)
+
+RUBY VERSION
+   ruby 2.6.3p62
 
 BUNDLED WITH
    1.17.2

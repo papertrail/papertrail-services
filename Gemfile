@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 ruby "2.6.3"
 
+gem 'rack', '1.6.13'
+gem 'nokogiri', '1.10.9'
+
 gem 'sinatra', '~> 1.4.7'
 gem 'unicorn', '~> 5.5'
 gem 'activesupport', '~> 5.2.3', :require => 'active_support'
@@ -41,7 +44,7 @@ group :development do
 end
 
 group :building do
-  gem 'rake'
+  gem 'rake', '12.3.3'
 end
 
 group :test do
