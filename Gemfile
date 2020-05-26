@@ -6,7 +6,7 @@ gem 'nokogiri', '1.10.9'
 
 gem 'sinatra', '~> 1.4.7'
 gem 'unicorn', '~> 5.5'
-gem 'activesupport', '~> 5.2.3', :require => 'active_support'
+gem 'activesupport', '~> 5.2.4', :require => 'active_support'
 gem 'yajl-ruby', '~> 1.4.1', :require => [ 'yajl', 'yajl/json_gem' ]
 gem 'net-http-persistent'
 
