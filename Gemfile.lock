@@ -10,7 +10,7 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (5.2.3)
+    activesupport (5.2.4.3)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
@@ -21,7 +21,7 @@ GEM
     aws-sdk (1.43.3)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
-    concurrent-ruby (1.1.5)
+    concurrent-ruby (1.1.6)
     eventmachine (1.2.7)
     faraday (0.8.8)
       multipart-post (~> 1.2.0)
@@ -37,7 +37,7 @@ GEM
     httparty (0.9.0)
       multi_json (~> 1.0)
       multi_xml
-    i18n (1.6.0)
+    i18n (1.8.2)
       concurrent-ruby (~> 1.0)
     json (1.8.6)
     kgio (2.11.2)
@@ -56,7 +56,7 @@ GEM
       metriks (>= 0.9.9.6)
     mime-types (1.19)
     mini_portile2 (2.4.0)
-    minitest (5.11.3)
+    minitest (5.14.1)
     minitest-ci (3.4.0)
       minitest (>= 5.0.6)
     mocha (1.8.0)
@@ -102,7 +102,7 @@ GEM
       eventmachine (>= 0.12.8)
       http_parser.rb (~> 0.5.1)
       simple_oauth (~> 0.1.4)
-    tzinfo (1.2.5)
+    tzinfo (1.2.7)
       thread_safe (~> 0.1)
     unicorn (5.5.0)
       kgio (~> 2.6)
@@ -114,7 +114,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  activesupport (~> 5.2.3)
+  activesupport (~> 5.2.4)
   appoptics-api-ruby!
   aws-sdk (~> 1.6)
   eventmachine (~> 1.2)
