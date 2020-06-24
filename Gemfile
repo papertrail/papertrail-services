@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 ruby "2.6.3"
 
-gem 'rack', '1.6.13'
+gem 'rack', '2.2.3'
 gem 'nokogiri', '1.10.9'
 
-gem 'sinatra', '~> 1.4.7'
+gem 'sinatra', '~> 2.0.8'
 gem 'unicorn', '~> 5.5'
 gem 'activesupport', '~> 5.2.3', :require => 'active_support'
 gem 'yajl-ruby', '~> 1.4.1', :require => [ 'yajl', 'yajl/json_gem' ]
