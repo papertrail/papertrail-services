@@ -1,6 +1,5 @@
 require File.expand_path('../helper.rb', __FILE__)
-require 'aws-sdk'
-
+ENV['STUB_RESPONSES'] = 'true'
 class CloudWatchTest < PapertrailServices::TestCase
 
   def setup
@@ -8,6 +7,7 @@ class CloudWatchTest < PapertrailServices::TestCase
                          aws_secret_access_key: '456',
                          metric_namespace: "papertrail-test",
                          metric_name: "test-metric",
+                         aws_region: "us-east-1"
                        }
     new_payload = payload # payload has some magic and can't be modified
     new_payload[:events].each do |e|
@@ -27,7 +27,6 @@ class CloudWatchTest < PapertrailServices::TestCase
   end
 
   def test_logs
-    AWS.stub!
     @svc.receive_logs
   end
 

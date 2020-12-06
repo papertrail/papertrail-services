@@ -5,23 +5,19 @@ class Service::SNS < Service
     raise_config_error 'Missing AWS Region' if settings[:aws_region].to_s.empty?
     raise_config_error 'Missing AWS SNS Topic' if settings[:aws_sns_topic_arn].to_s.empty?
 
-    sns = AWS::SNS.new(
-      :access_key_id => settings[:aws_access_key_id],
-      :secret_access_key => settings[:aws_secret_access_key],
-      :region => settings[:aws_region])
-
-    topic = sns.topics[settings[:aws_sns_topic_arn]]
-
+    sns_client ||= Aws::SNS::Client.new(
+      region: settings[:aws_region],
+      credentials: Aws::Credentials.new(settings[:aws_access_key_id], settings[:aws_secret_access_key], settings[:aws_session_token]),
+      stub_responses: !!ENV['STUB_RESPONSES']
+    )
     begin
       payload[:events].each do |event|
-        topic.publish(event.merge({
-          :default => syslog_format(event)
-        }))
+        sns_client.publish(topic_arn: settings[:aws_sns_topic_arn], message: event.merge(default: syslog_format(event)).to_json)
       end
-    rescue AWS::SNS::Errors::AuthorizationError, AWS::SNS::Errors::NotFound => e
+    rescue Aws::SNS::Errors::AuthorizationErrorException, Aws::SNS::Errors::NotFoundException => e
       raise Service::ConfigurationError,
         "Error sending to Amazon SNS: #{e.message}"
-    rescue AWS::SNS::Errors::ServiceError => e
+    rescue Aws::Errors::ServiceError => e
       raise Service::ConfigurationError,
         "Error sending to Amazon SNS (#{e.class.to_s.demodulize})"
     end

@@ -18,9 +18,21 @@ GEM
     aggregate (0.2.2)
     atomic (1.1.16)
     avl_tree (1.1.3)
-    aws-sdk (1.43.3)
-      json (~> 1.4)
-      nokogiri (>= 1.4.4)
+    aws-eventstream (1.1.0)
+    aws-partitions (1.402.0)
+    aws-sdk-cloudwatch (1.46.0)
+      aws-sdk-core (~> 3, >= 3.109.0)
+      aws-sigv4 (~> 1.1)
+    aws-sdk-core (3.110.0)
+      aws-eventstream (~> 1, >= 1.0.2)
+      aws-partitions (~> 1, >= 1.239.0)
+      aws-sigv4 (~> 1.1)
+      jmespath (~> 1.0)
+    aws-sdk-sns (1.36.0)
+      aws-sdk-core (~> 3, >= 3.109.0)
+      aws-sigv4 (~> 1.1)
+    aws-sigv4 (1.2.2)
+      aws-eventstream (~> 1, >= 1.0.2)
     concurrent-ruby (1.1.5)
     eventmachine (1.2.7)
     faraday (0.8.8)
@@ -39,6 +51,7 @@ GEM
       multi_xml
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
+    jmespath (1.4.0)
     json (1.8.6)
     kgio (2.11.2)
     librato-metrics (1.0.3)
@@ -116,7 +129,8 @@ PLATFORMS
 DEPENDENCIES
   activesupport (~> 5.2.3)
   appoptics-api-ruby!
-  aws-sdk (~> 1.6)
+  aws-sdk-cloudwatch (~> 1)
+  aws-sdk-sns (~> 1)
   eventmachine (~> 1.2)
   foreman
   hipchat-api
@@ -143,4 +157,4 @@ RUBY VERSION
    ruby 2.6.3p62
 
 BUNDLED WITH
-   1.17.2
+   1.17.3
