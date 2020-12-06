@@ -1,0 +1,14 @@
+version: '3.5'
+# This docker-compose file serves for local debugging only and is not used during build on CircleCI or production.
+
+services:
+  papertrail-services:
+    container_name: papertrail-services
+    image: papertrail-services
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 3001:3000
+    volumes:
+      - ./:/app/

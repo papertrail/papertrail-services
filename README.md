@@ -117,3 +117,27 @@ We thank them for everything they've done for all of us.
 [is]: https://github.com/papertrail/papertrail-services/issues/
 [Papertrail]: http://papertrailapp.com/
 [webhooks documentation]: http://help.papertrailapp.com/kb/how-it-works/web-hooks
+
+---
+## Development in docker
+
+1. run `docker-compose up --build`
+2. run a curl command (replace `slack_url` with your slack webhook url)
+  ```sh
+  curl --location --request POST 'localhost:3001/slack/logs' \
+  --form 'settings="{ \"slack_url\": \"https://hooks.slack.com/services/realhook\"}"' \
+  --form 'payload="{
+      \"min_id\": \"31171139124469760\", \"max_id\": \"31181206313902080\", \"reached_record_limit\": true, \"frequency\": \"1 minute\",
+      \"saved_search\" :  {
+      \"name\" :  \"cron\",
+      \"query\" :  \"cron\",
+      \"id\" :  392,
+      \"html_edit_url\" :  \"https://papertrailapp.com/searches/392/edit\",
+      \"html_search_url\" :  \"https://papertrailapp.com/searches/392\"
+    },
+    \"events\": [
+      {\"source_ip\": \"127.0.0.1\", \"display_received_at\": \"Jul 22 14:10:01\", \"source_name\": \"alien\", \"facility\": \"Cron\", \"id\": 31171139124469760, \"hostname\": \"alien\", \"program\": \"CROND\", \"message\": \"(root) CMD (/usr/lib/sa/sa1 -S DISK 1 1)\", \"severity\": \"Info\", \"source_id\": 6, \"received_at\": \"2011-07-22T14:10:01-07:00\"}
+    ] }"'
+  ```
+3. to run tests run: `docker-compose exec papertrail-services rake test`
+4. to finish run: `docker-compose down`
