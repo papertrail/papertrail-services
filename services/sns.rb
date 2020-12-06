@@ -12,7 +12,7 @@ class Service::SNS < Service
     )
     begin
       payload[:events].each do |event|
-        sns_client.publish(topic_arn: settings[:aws_sns_topic_arn], message: event.merge(default: syslog_format(event)).to_json)
+        sns_client.publish(topic_arn: settings[:aws_sns_topic_arn], message: syslog_format(event))
       end
     rescue Aws::SNS::Errors::AuthorizationErrorException, Aws::SNS::Errors::NotFoundException => e
       raise Service::ConfigurationError,
