@@ -1,12 +1,19 @@
-version: 2
-jobs:
-  build:
-    working_directory: ~/papertrail-services
+version: 2.1
+
+executors:
+  ruby-executor:
     docker:
       - image: circleci/ruby:2.6.3
+        auth:
+          username: $DOCKER_HUB_CI_USER
+          password: $DOCKER_HUB_CI_PASSWORD
         environment:
           TESTOPTS: "--ci-dir=/tmp/test-results"
           APP_ENV: test
+jobs:
+  build:
+    working_directory: ~/papertrail-services
+    executor: ruby-executor
     steps:
       - checkout
 
@@ -31,3 +38,9 @@ jobs:
       # Save artifacts
       - type: store_test_results
         path: /tmp/test-results
+
+workflows:
+  version: 2
+  ci:
+    jobs:
+      - build
