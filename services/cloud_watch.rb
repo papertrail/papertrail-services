@@ -43,7 +43,7 @@ class Service::CloudWatch < Service
     cloudwatch = Aws::CloudWatch::Client.new(
       region: settings[:aws_region],
       credentials: Aws::Credentials.new(settings[:aws_access_key_id], settings[:aws_secret_access_key]),
-      stub_responses: !!ENV['STUB_RESPONSES']
+      stub_responses: !!ENV['AWS_STUB_RESPONSES']
     )
 
     post_array = prepare_post_data(payload[:events])
@@ -51,10 +51,10 @@ class Service::CloudWatch < Service
       post_array.each do |post_data|
         resp = cloudwatch.put_metric_data post_data
       end
-    rescue Aws::SNS::Errors::AuthorizationErrorException, Aws::SNS::Errors::NotFoundException => e
+    rescue Aws::CloudWatch::Errors::ResourceNotFound => e
       raise Service::ConfigurationError,
         "Error sending to Amazon CloudWatch: #{e.message}"
-    rescue Aws::Errors::ServiceError => e
+    rescue Aws::CloudWatch::Errors::ServiceError => e
       raise Service::ConfigurationError,
         "Error sending to Amazon CloudWatch (#{e.class.to_s.demodulize})"
     end

@@ -1,5 +1,5 @@
 require File.expand_path('../helper.rb', __FILE__)
-ENV['STUB_RESPONSES'] = 'true'
+ENV['AWS_STUB_RESPONSES'] = 'true'
 class CloudWatchTest < PapertrailServices::TestCase
 
   def setup
