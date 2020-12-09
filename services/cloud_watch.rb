@@ -42,7 +42,7 @@ class Service::CloudWatch < Service
 
     cloudwatch = Aws::CloudWatch::Client.new(
       region: settings[:aws_region],
-      credentials: Aws::Credentials.new(settings[:aws_access_key_id], settings[:aws_secret_access_key], settings[:aws_session_token]),
+      credentials: Aws::Credentials.new(settings[:aws_access_key_id], settings[:aws_secret_access_key]),
       stub_responses: !!ENV['STUB_RESPONSES']
     )
 
