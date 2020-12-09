@@ -5,7 +5,7 @@ class Service::SNS < Service
     raise_config_error 'Missing AWS Region' if settings[:aws_region].to_s.empty?
     raise_config_error 'Missing AWS SNS Topic' if settings[:aws_sns_topic_arn].to_s.empty?
 
-    sns_client ||= Aws::SNS::Client.new(
+    sns_client = Aws::SNS::Client.new(
       region: settings[:aws_region],
       credentials: Aws::Credentials.new(settings[:aws_access_key_id], settings[:aws_secret_access_key]),
       stub_responses: !!ENV['STUB_RESPONSES']
