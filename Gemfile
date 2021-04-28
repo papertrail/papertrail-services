@@ -37,7 +37,8 @@ gem 'appoptics-api-ruby', :git => 'https://github.com/appoptics/appoptics-api-ru
   :ref => '23fe88a', :require => "appoptics/metrics"
 
 # service :aws-sns
-gem 'aws-sdk', '~> 1.6'
+gem 'aws-sdk-sns', '~> 1'
+gem 'aws-sdk-cloudwatch', '~> 1'
 
 group :development do
   gem 'foreman'

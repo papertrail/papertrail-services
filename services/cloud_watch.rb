@@ -1,5 +1,3 @@
-require 'aws-sdk'
-
 class Service::CloudWatch < Service
 
   def prepare_post_data(events, metrics_per_request = 20, max_days = 14)
@@ -42,17 +40,23 @@ class Service::CloudWatch < Service
         setting.to_s.empty?
     end
 
-    cloudwatch = AWS::CloudWatch::Client.new(
+    cloudwatch = Aws::CloudWatch::Client.new(
       region: settings[:aws_region],
-      access_key_id: settings[:aws_access_key_id],
-      secret_access_key: settings[:aws_secret_access_key],
+      credentials: Aws::Credentials.new(settings[:aws_access_key_id], settings[:aws_secret_access_key]),
+      stub_responses: !!ENV['AWS_STUB_RESPONSES']
     )
 
     post_array = prepare_post_data(payload[:events])
-
-    post_array.each do |post_data|
-      resp = cloudwatch.put_metric_data post_data
+    begin
+      post_array.each do |post_data|
+        resp = cloudwatch.put_metric_data post_data
+      end
+    rescue Aws::CloudWatch::Errors::ResourceNotFound => e
+      raise Service::ConfigurationError,
+        "Error sending to Amazon CloudWatch: #{e.message}"
+    rescue Aws::CloudWatch::Errors::ServiceError => e
+      raise Service::ConfigurationError,
+        "Error sending to Amazon CloudWatch (#{e.class.to_s.demodulize})"
     end
-
   end
 end

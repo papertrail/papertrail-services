@@ -1,33 +1,46 @@
-version: 2
-jobs:
-  build:
-    working_directory: ~/papertrail-services
+version: 2.1
+
+executors:
+  ruby-executor:
     docker:
       - image: circleci/ruby:2.6.3
+        auth:
+          username: $DOCKER_HUB_CI_USER
+          password: $DOCKER_HUB_CI_PASSWORD
         environment:
           TESTOPTS: "--ci-dir=/tmp/test-results"
           APP_ENV: test
+jobs:
+  build:
+    working_directory: ~/papertrail-services
+    executor: ruby-executor
     steps:
       - checkout
 
       # Restore bundle cache
-      - type: cache-restore
-        key: papertrail-services-{{ checksum "Gemfile.lock" }}
+      - restore_cache:
+          key: papertrail-services-{{ checksum "Gemfile.lock" }}
 
       # Bundle install dependencies
       - run: bundle install --path vendor/bundle
 
       # Store bundle cache
-      - type: cache-save
-        key: papertrail-services-{{ checksum "Gemfile.lock" }}
-        paths:
-          - vendor/bundle
+      - save_cache:
+          key: papertrail-services-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
 
       # Run minitest
       - run: mkdir -p /tmp/test-results
-      - type: shell
-        command: bundle exec rake
+      - run: bundle exec rake
 
       # Save artifacts
-      - type: store_test_results
-        path: /tmp/test-results
+      - store_test_results:
+          path: /tmp/test-results
+
+workflows:
+  version: 2
+  ci:
+    jobs:
+      - build:
+          context: docker-hub
