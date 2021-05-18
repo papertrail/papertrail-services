@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 ruby "2.6.3"
 
 gem 'rack', '1.6.13'
-gem 'nokogiri', '1.10.9'
+gem 'nokogiri', '1.11.4'
 
 gem 'sinatra', '~> 1.4.7'
 gem 'unicorn', '~> 5.5'
