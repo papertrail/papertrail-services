@@ -50,8 +50,15 @@ class Service::CloudWatch < Service
 
     post_array = prepare_post_data(payload[:events])
 
-    post_array.each do |post_data|
-      resp = cloudwatch.put_metric_data post_data
+    begin
+      post_array.each do |post_data|
+        resp = cloudwatch.put_metric_data post_data
+      end
+    rescue AWS::CloudWatch::Errors::AccessDenied,
+           AWS::CloudWatch::Errors::InvalidClientTokenId => e
+
+      raise Service::ConfigurationError,
+        "Error sending to Amazon CloudWatch: #{e.message}"
     end
 
   end
