@@ -11,7 +11,7 @@ class CloudWatchTest < PapertrailServices::TestCase
                        }
     new_payload = payload # payload has some magic and can't be modified
     new_payload[:events].each do |e|
-      # Cloudwatch demands recent dates
+      # CloudWatch demands recent dates
       e[:received_at] = (Time.now - rand(0..100)).iso8601
     end
 

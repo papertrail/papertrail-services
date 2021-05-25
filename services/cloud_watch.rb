@@ -58,7 +58,7 @@ class Service::CloudWatch < Service
            AWS::CloudWatch::Errors::InvalidClientTokenId => e
 
       raise Service::ConfigurationError,
-        "Error sending to Amazon Cloudwatch: #{e.message}"
+        "Error sending to Amazon CloudWatch: #{e.message}"
     end
 
   end
